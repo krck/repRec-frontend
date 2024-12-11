@@ -15,6 +15,20 @@
       "request": "launch",
       "preLaunchTask": "npm: test",
       "url": "http://localhost:9876/debug.html"
+    },
+    {
+      "name": "Launch Firefox against localhost",
+      "type": "firefox",
+      "request": "launch",
+      "preLaunchTask": "npm: start",
+      "url": "http://localhost:4200", // This is the default Angular dev server URL
+      "webRoot": "${workspaceFolder}",
+      "firefoxExecutable": "/usr/bin/firefox", // Adjust path if necessary
+      "reAttach": true,
+      "skipFiles": [
+        "node_modules/**",
+        "ng-*/**"
+      ]
     }
   ]
 }
