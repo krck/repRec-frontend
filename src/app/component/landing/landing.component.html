@@ -2,9 +2,9 @@
     <h1>Redirecting to login...</h1>
 </div>
 <ng-template #loggedIn>
-    <h1>Welcome, {{ (user?.nickname ?? user.name) }}</h1>
-    <p>Email: {{ user?.email }}</p>
-    <p>Verified: {{ user?.email_verified }}</p>
+    <h1>Welcome, {{ (user.nickname) }}</h1>
+    <p>Email: {{ user.email }}</p>
+    <p>Verified: {{ user.emailVerified }}</p>
     <button mat-raised-button (click)="logout()">
         Logout
     </button>
