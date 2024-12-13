@@ -11,7 +11,6 @@ export class RestApiService {
 
   // Method to fetch data from the API
   getPlans(): Observable<any[]> {
-    console.log(`${environment.apiUrl}/plan`);
-    return this.http.get<any[]>(`${environment.apiUrl}/plan`);
+    return this.http.get<any[]>(`${environment.apiUrl}/api/plan`);
   }
 }
