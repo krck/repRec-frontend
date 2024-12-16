@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://188.245.213.112:5205',
+    apiUrl: 'https://www.reprec.de',
     auth: {
         domain: 'dev-reprec.eu.auth0.com',
         clientId: 'vNnECNYUvqao2p6Vl0xUMuhJoMvYHOZ0',
