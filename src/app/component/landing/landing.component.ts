@@ -1,6 +1,6 @@
 import { RestApiService } from '../../service/rest-api.service';
 import { MatButtonModule } from '@angular/material/button';
-import { repRecUser } from '../../models/repRecUser';
+import { UserService } from '../../service/user-service';
 import { AuthService } from '@auth0/auth0-angular';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -14,9 +14,8 @@ import { Router } from '@angular/router';
   styleUrl: './landing.component.scss'
 })
 export class LandingComponent implements OnInit {
-  user!: repRecUser;
 
-  constructor(public auth: AuthService, private router: Router, private restApiService: RestApiService) { }
+  constructor(public auth: AuthService, public userService: UserService, private restApiService: RestApiService) { }
 
   ngOnInit(): void {
     this.handleAuthentication();
@@ -29,24 +28,21 @@ export class LandingComponent implements OnInit {
         // (... when the user loads the page initially)
         this.auth.loginWithRedirect();
       } else {
-        // If user is authenticated, save the user data (here and in the DB)
-        this.auth.user$.subscribe(user => {
-          this.user = {
-            id: user?.sub ?? "",
-            email: user?.email ?? "",
-            emailVerified: user?.email_verified ?? false,
-            nickname: user?.nickname ?? "",
-            createdAt: new Date(Date.now()).toISOString()
-          }
-
-          if (this.user.id) {
-            // Once the user data is available, call the api to initially save or update the user data
-            this.restApiService.saveUser(this.user).subscribe({
+        this.auth.user$.subscribe(authUser => {
+          if (authUser) {
+            // If user is authenticated, save the user data (initial save or update)
+            this.restApiService.saveUser({
+              id: authUser.sub ?? "",
+              email: authUser.email ?? "",
+              emailVerified: authUser.email_verified ?? false,
+              nickname: authUser.nickname ?? "",
+              createdAt: new Date(Date.now()).toISOString()
+            }).subscribe({
               next: (response) => {
-                console.log(response);
+                this.userService.initializeUser(response);
               },
               error: (error) => {
-                console.log(error);
+                // throw
               }
             });
           } else {

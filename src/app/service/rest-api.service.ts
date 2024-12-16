@@ -1,5 +1,5 @@
 import { environment } from '../../environments/environment';
-import { repRecUser } from '../models/repRecUser';
+import { RepRecUser } from '../models/repRecUser';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -10,13 +10,17 @@ import { Observable } from 'rxjs';
 export class RestApiService {
   constructor(private http: HttpClient) { }
 
-  // Method to fetch data from the API
+  // PLANS
   getPlans(): Observable<any[]> {
     return this.http.get<any[]>(`${environment.apiUrl}/api/plan`);
   }
 
-  saveUser(user: repRecUser): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/api/users/${user.id}`, user);
+  // USER
+  getUser(id: string): Observable<RepRecUser> {
+    return this.http.get<any>(`${environment.apiUrl}/api/users/${id}`);
+  }
+  saveUser(user: RepRecUser): Observable<RepRecUser> {
+    return this.http.post<RepRecUser>(`${environment.apiUrl}/api/users/${user.id}`, user);
   }
 
 }

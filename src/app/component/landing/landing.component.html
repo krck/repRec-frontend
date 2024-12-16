@@ -2,9 +2,16 @@
     <h1>Redirecting to login...</h1>
 </div>
 <ng-template #loggedIn>
-    <h1>Welcome, {{ (user.nickname) }}</h1>
-    <p>Email: {{ user.email }}</p>
-    <p>Verified: {{ user.emailVerified }}</p>
+    <h1>Welcome, {{ (userService.getUser()?.nickname) }}</h1>
+    <p>Email: {{ userService.getUser()?.email }}</p>
+    <p>Verified: {{ userService.getUser()?.emailVerified }}</p>
+    <!-- List all the users roles -->
+    <ul>
+        <li *ngFor="let role of userService.getUserRoles()">
+            Role: {{ role }}
+        </li>
+    </ul>
+
     <button mat-raised-button (click)="logout()">
         Logout
     </button>
