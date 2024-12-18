@@ -1,6 +1,62 @@
-<div class="header">
-  <app-header></app-header>
-</div>
 <div class="main w-full">
-  <router-outlet></router-outlet>
+  <!-- Force Authentication, before anything else is visible -->
+  <div *ngIf="!(auth.isAuthenticated$ | async); else loggedIn">
+    <!-- <h1>Redirecting to login...</h1> -->
+  </div>
+  <ng-template #loggedIn>
+    <!-- ------------------------------------------------------- -->
+    <!-- ---------------------- MAIN MENU ---------------------- -->
+    <!-- ------------------------------------------------------- -->
+    <mat-sidenav-container class="main-nav-container">
+      <!-- Main Menu - Sidenav -->
+      <mat-sidenav #sidenav mode="side" opened="false" class="sidenav">
+        <mat-nav-list>
+          <a mat-list-item routerLink="/" (click)="closeSidenav()">Home</a>
+          <div class="menu-group">
+            <span class="menu-group-title">Training</span>
+            <mat-nav-list>
+              <a mat-list-item routerLink="/training-day" (click)="closeSidenav()">Training Day - Exercises</a>
+              <a mat-list-item routerLink="/training-week" (click)="closeSidenav()">Training Week - Workout</a>
+              <a mat-list-item routerLink="/training-year" (click)="closeSidenav()">Training Year - Mesocycle</a>
+            </mat-nav-list>
+          </div>
+          <div class="menu-group">
+            <span class="menu-group-title">Planning</span>
+            <mat-nav-list>
+              <a mat-list-item routerLink="/plans" (click)="closeSidenav()">Plans</a>
+            </mat-nav-list>
+          </div>
+          <button mat-raised-button (click)="logout()">
+            Logout
+          </button>
+        </mat-nav-list>
+      </mat-sidenav>
+
+      <!-- Main Menu - Top Bar -->
+      <mat-sidenav-content>
+        <mat-toolbar class="top-toolbar flex justify-between items-center px-4 py-2">
+          <!-- Left Section: Hamburger menu + App Name -->
+          <button mat-icon-button (click)="sidenav.toggle()" aria-label="Toggle sidenav" class="text-white">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <span class="app-name text-lg font-bold ml-2">RepRec</span>
+
+          <!-- Center Section: Central Text -->
+          <span class="toolbar-title flex-grow text-center text-lg">
+            Welcome, {{ (userService.getUser()?.nickname) }}
+          </span>
+
+          <!-- Right Section: App Logo -->
+          <img class="app-logo h-10" src="assets/favicon.png" alt="App Logo">
+        </mat-toolbar>
+
+        <div class="content">
+          <!-- ---------------------------------------------------------- -->
+          <!-- ---------------------- MAIN CONTENT ---------------------- -->
+          <!-- ---------------------------------------------------------- -->
+          <router-outlet></router-outlet>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </ng-template>
 </div>
