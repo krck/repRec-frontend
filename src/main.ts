@@ -14,8 +14,6 @@ bootstrapApplication(AppComponent, {
     provideHttpClient(withInterceptors([authHttpInterceptorFn])),
     provideRouter(routes),
     provideAnimationsAsync(),
-    provideAnimationsAsync(),
-    provideHttpClient(),
     provideAuth0({
       domain: environment.auth.domain,
       clientId: environment.auth.clientId,

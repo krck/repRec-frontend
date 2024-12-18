@@ -1,7 +1,7 @@
-import { CommonModule } from '@angular/common';
 import { RestApiService } from '../../service/rest-api.service';
+import { ErrorService } from '../../service/error-service';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-plans',
@@ -14,7 +14,7 @@ export class PlansComponent implements OnInit {
   data: any[] = []; // array to store the data
   loading: boolean = true; // flag to show loading state
 
-  constructor(private restApiService: RestApiService) { }
+  constructor(private restApiService: RestApiService, private errorService: ErrorService) { }
 
   ngOnInit(): void {
     this.fetchData();
@@ -27,7 +27,7 @@ export class PlansComponent implements OnInit {
         this.loading = false; // hide loading indicator
       },
       (error) => {
-        console.error('Error fetching data', error);
+        this.errorService.outputError(error, true);
         this.loading = false; // hide loading on error
       }
     );
