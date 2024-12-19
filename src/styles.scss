@@ -1,0 +1,43 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// Define primary, accent and warm palettes
+$repRec-primary: mat.define-palette(mat.$grey-palette, $default: 500, $lighter: 200, $darker: 700);
+$repRec-accent: mat.define-palette(mat.$orange-palette, $default: 500, $lighter: 200, $darker: 700);
+$repRec-warn: mat.define-palette(mat.$red-palette);
+
+// Create the app theme based on the defined palettes
+$repRec-theme: mat.define-dark-theme((color: (primary: $repRec-primary,
+                accent: $repRec-accent,
+                warn: $repRec-warn,
+            ),
+            density: -2, // Pull all UI Elements a bit closer together for a more compact look
+        ));
+
+// Apply the theme to all components
+@include mat.all-component-themes($repRec-theme);
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.container {
+    padding: 10px;
+}
+
+.header,
+.content,
+.footer {
+    padding: 20px;
+}

@@ -1,0 +1,91 @@
+<div class="main w-full">
+  <!-- Force Authentication, before anything else is visible -->
+  <div *ngIf="!(auth.isAuthenticated$ | async); else loggedIn">
+    <!-- <h1>Redirecting to login...</h1> -->
+  </div>
+  <ng-template #loggedIn>
+    <!-- ------------------------------------------------------- -->
+    <!-- ---------------------- MAIN MENU ---------------------- -->
+    <!-- ------------------------------------------------------- -->
+    <mat-sidenav-container class="main-nav-container">
+      <!-- Main Menu - Sidenav -->
+      <mat-sidenav #sidenav mode="side" opened="false" class="sidenav">
+        <mat-nav-list dense>
+          <a mat-list-item routerLink="/" class="flex justify-center space-x-2" (click)="closeSidenav()"><mat-icon
+              class="align-middle mr-2">home</mat-icon>Home</a>
+          <a mat-list-item routerLink="/info" class="flex justify-center space-x-2" (click)="closeSidenav()"><mat-icon
+              class="align-middle mr-2">info</mat-icon>Info</a>
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title class="text-[color:mat-color($my-app-accent)]">Training</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-nav-list class="dense-list">
+              <a mat-list-item routerLink="/training-day" (click)="closeSidenav()">
+                <mat-icon class="align-middle mr-2">fitness_center</mat-icon>Training Day</a>
+              <a mat-list-item routerLink="/training-week" (click)="closeSidenav()">
+                <mat-icon class="align-middle mr-2">format_list_numbered</mat-icon>Training Week</a>
+              <a mat-list-item routerLink="/training-year" (click)="closeSidenav()">
+                <mat-icon class="align-middle mr-2">calendar_month</mat-icon>Training Year</a>
+              <a mat-list-item routerLink="/training-progress" (click)="closeSidenav()">
+                <mat-icon class="align-middle mr-2">trending_up</mat-icon>Training Progress</a>
+            </mat-nav-list>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="false">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Planning</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-nav-list dense>
+              <a mat-list-item routerLink="/plan-workout" (click)="closeSidenav()">
+                <mat-icon class="align-middle mr-2">design_services</mat-icon>Plan Workouts</a>
+              <a mat-list-item routerLink="/share-workout" (click)="closeSidenav()">
+                <mat-icon class="align-middle mr-2">ios_share</mat-icon>Share Workouts</a>
+            </mat-nav-list>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="false">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Administration</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-nav-list dense>
+              <a mat-list-item routerLink="/admin-logs" (click)="closeSidenav()">
+                <mat-icon class="align-middle mr-2">assignment_late</mat-icon>Error Log</a>
+              <a mat-list-item routerLink="/admin-user-roles" (click)="closeSidenav()">
+                <mat-icon class="align-middle mr-2">group</mat-icon>User Roles</a>
+            </mat-nav-list>
+          </mat-expansion-panel>
+
+          <!-- Logout Button as part of the side-nav -->
+          <div class="flex justify-center">
+            <button class="mt-10" mat-raised-button color="accent" (click)="logout()">
+              Logout
+            </button>
+          </div>
+        </mat-nav-list>
+      </mat-sidenav>
+
+      <!-- Main Menu - Top Bar -->
+      <mat-sidenav-content>
+        <mat-toolbar class="top-toolbar flex justify-between items-center px-4 py-2">
+          <!-- Left Section: Hamburger menu + App Name -->
+          <button mat-icon-button (click)="sidenav.toggle()" aria-label="Toggle sidenav" class="text-white">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <!-- <span class="app-name text-lg font-bold ml-2">RepRec</span> -->
+
+          <!-- Center Section: Central Text -->
+          <span class="toolbar-title flex-grow text-center text-lg">
+          </span>
+
+          <!-- Right Section: App Logo -->
+          <img class="app-logo h-10" src="assets/favicon.png" alt="App Logo">
+        </mat-toolbar>
+
+        <div class="content">
+          <!-- ---------------------------------------------------------- -->
+          <!-- ---------------------- MAIN CONTENT ---------------------- -->
+          <!-- ---------------------------------------------------------- -->
+          <router-outlet></router-outlet>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </ng-template>
+</div>

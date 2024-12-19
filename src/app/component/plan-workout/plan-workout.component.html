@@ -1,0 +1,19 @@
+<p>plan-workout works!</p>
+<div *ngIf="loading">Loading...</div>
+
+<table *ngIf="!loading" border="1">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of data">
+            <td>{{ item.id }}</td>
+            <td>{{ item.date }}</td>
+            <td>{{ item.name }}</td>
+        </tr>
+    </tbody>
+</table>

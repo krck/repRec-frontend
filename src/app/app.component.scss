@@ -1,0 +1,45 @@
+.main-nav-container {
+    height: 100vh;
+    /* Full viewport height */
+}
+
+.sidenav {
+    height: 100%;
+    /* Ensure sidenav takes up full height */
+    max-height: 100%;
+    overflow-y: auto;
+    /* Scrollable if needed */
+}
+
+mat-sidenav-content {
+    height: 100%;
+    /* Ensure content takes up full height */
+    display: flex;
+    flex-direction: column;
+    /* Allows flexible resizing of children */
+}
+
+.content {
+    flex-grow: 1;
+    /* This makes the content element grow to fill the available height */
+    padding: 10px;
+    overflow-y: auto;
+    /* Allow scrolling in the content area if necessary */
+}
+
+mat-icon {
+    font-size: 20px;
+}
+
+/* Styling for the menu group */
+.menu-group {
+    margin-top: 16px;
+}
+
+.menu-group-title {
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 16px;
+    padding-top: 8px;
+    /* Optional: Styling for the group title */
+}
