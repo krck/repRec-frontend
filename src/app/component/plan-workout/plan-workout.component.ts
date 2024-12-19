@@ -1,4 +1,4 @@
-import { RestApiService } from '../../service/rest-api.service';
+import { ApiQueryService } from '../../service/api-query-service';
 import { ErrorService } from '../../service/error-service';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
@@ -14,20 +14,19 @@ export class PlanWorkoutComponent {
   data: any[] = []; // array to store the data
   loading: boolean = true; // flag to show loading state
 
-  constructor(private restApiService: RestApiService, private errorService: ErrorService) { }
+  constructor(private apiQueryService: ApiQueryService, private errorService: ErrorService) { }
 
   ngOnInit(): void {
     this.fetchData();
   }
 
   fetchData(): void {
-    this.restApiService.getPlans().subscribe(
+    this.apiQueryService.getPlans().subscribe(
       (response) => {
         this.data = response; // assign the response data to the data array
         this.loading = false; // hide loading indicator
       },
       (error) => {
-        this.errorService.outputError(error, true);
         this.loading = false; // hide loading on error
       }
     );

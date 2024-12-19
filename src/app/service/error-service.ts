@@ -14,7 +14,9 @@ export class GlobalErrorHandler implements ErrorHandler {
 //
 // Error Service that can be injected everywhere to output errors (Popup anc Console)
 //
-@Injectable()
+@Injectable({
+    providedIn: 'root',
+})
 export class ErrorService {
     constructor(private injector: Injector) { }
 

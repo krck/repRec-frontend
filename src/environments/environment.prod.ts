@@ -1,5 +1,6 @@
 export const environment = {
     production: true,
+    version: '0.0.0',
     apiUrl: 'https://www.reprec.de',
     auth: {
         domain: 'dev-reprec.eu.auth0.com',

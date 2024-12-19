@@ -1,6 +1,25 @@
-<div>
-    <p class="text-center">
+<div class="text-center">
+    <p>
         Logged in as:
-        <br>{{ (userName) }}
+        <br><b>{{ (user?.nickname) }}</b>
+
+        <br>
+        <br>Email: {{ user?.email }}
+        <br>Email verified: {{ user?.emailVerified }}
+    </p>
+    <ul>
+        <li *ngFor="let role of userRoles">
+            Role: <b>{{ role }}</b>
+        </li>
+    </ul>
+    <p>
+        <br>
+        <a href="https://github.com/krck/repRec-frontend/wiki" target="_blank" style="color:orange">Documentation
+            (Wiki-Link)</a>
+    </p>
+    <p>
+        <br>
+        <br>WEB Version: {{ (webVersion) }}
+        <br>API Version: {{ (apiVersion) }}
     </p>
 </div>

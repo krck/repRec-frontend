@@ -1,4 +1,3 @@
-import { RestApiService } from './rest-api.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RepRecUser } from '../models/repRecUser';
 import { Injectable } from '@angular/core';
@@ -14,13 +13,7 @@ export class UserService {
     // Observable for components to subscribe to
     user$ = this.userSubject.asObservable();
 
-    constructor(private restApiService: RestApiService) { }
-
-    getUserRoles(): string[] | undefined { return this.userSubject.value?.userRoles?.map(r => roles.get(r.roleId) ?? ""); }
-    hasUserRole(roleId: number): boolean {
-        const userRoles = new Set<number>(this.userSubject.value?.userRoles?.map(role => role.roleId) ?? []);
-        return userRoles.has(roleId);
-    }
+    constructor() { }
 
     initializeUser(userData: RepRecUser): void {
         this.userSubject.next(userData);  // Emit new value to all subscribers
