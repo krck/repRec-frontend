@@ -10,29 +10,52 @@
     <mat-sidenav-container class="main-nav-container">
       <!-- Main Menu - Sidenav -->
       <mat-sidenav #sidenav mode="side" opened="false" class="sidenav">
-        <mat-nav-list>
-          <p class="text-center text-xs">
-            Logged in as:
-            <br>{{ (userService.getUser()?.nickname) }}
-          </p>
+        <mat-nav-list dense>
           <a mat-list-item routerLink="/" class="flex justify-center space-x-2" (click)="closeSidenav()"><mat-icon
-              class="align-middle">home</mat-icon>Home</a>
-          <div class="menu-group">
-            <span class="menu-group-title accent-text">Training</span>
-            <mat-nav-list>
-              <a mat-list-item routerLink="/training-day" (click)="closeSidenav()">Training Day - Exercises</a>
-              <a mat-list-item routerLink="/training-week" (click)="closeSidenav()">Training Week - Workout</a>
-              <a mat-list-item routerLink="/training-year" (click)="closeSidenav()">Training Year - Mesocycle</a>
+              class="align-middle mr-2">home</mat-icon>Home</a>
+          <a mat-list-item routerLink="/info" class="flex justify-center space-x-2" (click)="closeSidenav()"><mat-icon
+              class="align-middle mr-2">info</mat-icon>Info</a>
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title class="text-[color:mat-color($my-app-accent)]">Training</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-nav-list class="dense-list">
+              <a mat-list-item routerLink="/training-day" (click)="closeSidenav()">
+                <mat-icon class="align-middle mr-2">fitness_center</mat-icon>Training Day</a>
+              <a mat-list-item routerLink="/training-week" (click)="closeSidenav()">
+                <mat-icon class="align-middle mr-2">format_list_numbered</mat-icon>Training Week</a>
+              <a mat-list-item routerLink="/training-year" (click)="closeSidenav()">
+                <mat-icon class="align-middle mr-2">calendar_month</mat-icon>Training Year</a>
+              <a mat-list-item routerLink="/training-progress" (click)="closeSidenav()">
+                <mat-icon class="align-middle mr-2">trending_up</mat-icon>Training Progress</a>
             </mat-nav-list>
-          </div>
-          <div class="menu-group">
-            <span class="menu-group-title">Planning</span>
-            <mat-nav-list>
-              <a mat-list-item routerLink="/plans" (click)="closeSidenav()">Plans</a>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="false">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Planning</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-nav-list dense>
+              <a mat-list-item routerLink="/plan-workout" (click)="closeSidenav()">
+                <mat-icon class="align-middle mr-2">design_services</mat-icon>Plan Workouts</a>
+              <a mat-list-item routerLink="/share-workout" (click)="closeSidenav()">
+                <mat-icon class="align-middle mr-2">ios_share</mat-icon>Share Workouts</a>
             </mat-nav-list>
-          </div>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="false">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Administration</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-nav-list dense>
+              <a mat-list-item routerLink="/admin-logs" (click)="closeSidenav()">
+                <mat-icon class="align-middle mr-2">assignment_late</mat-icon>Error Log</a>
+              <a mat-list-item routerLink="/admin-user-roles" (click)="closeSidenav()">
+                <mat-icon class="align-middle mr-2">group</mat-icon>User Roles</a>
+            </mat-nav-list>
+          </mat-expansion-panel>
+
+          <!-- Logout Button as part of the side-nav -->
           <div class="flex justify-center">
-            <button class="mt-10" mat-raised-button (click)="logout()">
+            <button class="mt-10" mat-raised-button color="accent" (click)="logout()">
               Logout
             </button>
           </div>

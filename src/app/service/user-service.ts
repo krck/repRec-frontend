@@ -5,35 +5,25 @@ import { Injectable } from '@angular/core';
 import { roles } from '../enums/roles';
 
 @Injectable({
-    providedIn: 'root', // Makes this service a singleton
+    providedIn: 'root', // Singleton
 })
 export class UserService {
-    private _user?: RepRecUser;
+    // BehaviorSubject is a type of observable that holds a current value (default: null)
+    private userSubject = new BehaviorSubject<RepRecUser | null>(null);
+
+    // Observable for components to subscribe to
+    user$ = this.userSubject.asObservable();
 
     constructor(private restApiService: RestApiService) { }
 
-    getUser(): RepRecUser | undefined { return this._user; }
-    getUserRoles(): string[] | undefined { return this._user?.userRoles?.map(r => roles.get(r.roleId) ?? ""); }
-
-    initializeUser(userData: RepRecUser): void { this._user = userData; }
-
-    hasRole(roleId: number): boolean {
-        const userRoles = new Set<number>(this._user?.userRoles?.map(role => role.roleId) ?? []);
+    getUserRoles(): string[] | undefined { return this.userSubject.value?.userRoles?.map(r => roles.get(r.roleId) ?? ""); }
+    hasUserRole(roleId: number): boolean {
+        const userRoles = new Set<number>(this.userSubject.value?.userRoles?.map(role => role.roleId) ?? []);
         return userRoles.has(roleId);
     }
 
-    // Fetch the latest user data from the server
-    reloadUser(): void {
-        const userId = this._user?.id;
-        if (!userId) return;
-
-        this.restApiService.getUser(userId).subscribe({
-            next: (response) => {
-                this.initializeUser(response);
-            },
-            error: (error) => {
-                // throw
-            }
-        });
+    initializeUser(userData: RepRecUser): void {
+        this.userSubject.next(userData);  // Emit new value to all subscribers
     }
+
 }

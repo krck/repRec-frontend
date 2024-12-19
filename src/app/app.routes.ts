@@ -1,8 +1,13 @@
+import { TrainingProgressComponent } from './component/training-progress/training-progress.component';
+import { AdminUserRolesComponent } from './component/admin-user-roles/admin-user-roles.component';
 import { TrainingYearComponent } from './component/training-year/training-year.component';
 import { TrainingWeekComponent } from './component/training-week/training-week.component';
+import { ShareWorkoutComponent } from './component/share-workout/share-workout.component';
 import { TrainingDayComponent } from './component/training-day/training-day.component';
+import { PlanWorkoutComponent } from './component/plan-workout/plan-workout.component';
+import { AdminLogsComponent } from './component/admin-logs/admin-logs.component';
 import { LogoutComponent } from './component/logout/logout.component';
-import { PlansComponent } from './component/plans/plans.component';
+import { InfoComponent } from './component/info/info.component';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { Routes } from '@angular/router';
 
@@ -17,6 +22,12 @@ export const routes: Routes = [
         component: LogoutComponent
         // Logout does not require [AuthGuard]
     },
+    {
+        path: "info",
+        component: InfoComponent,
+        canActivate: [AuthGuard]
+    },
+    // Training / User-Role Routes
     {
         path: 'training-day',
         component: TrainingDayComponent,
@@ -33,8 +44,30 @@ export const routes: Routes = [
         canActivate: [AuthGuard]
     },
     {
-        path: 'plans',
-        component: PlansComponent,
+        path: 'training-progress',
+        component: TrainingProgressComponent,
+        canActivate: [AuthGuard]
+    },
+    // Planning / Planner-Role Routes
+    {
+        path: 'plan-workout',
+        component: PlanWorkoutComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'share-workout',
+        component: ShareWorkoutComponent,
+        canActivate: [AuthGuard]
+    },
+    // Administration / Admin-Role Routes
+    {
+        path: 'admin-logs',
+        component: AdminLogsComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'admin-user-roles',
+        component: AdminUserRolesComponent,
         canActivate: [AuthGuard]
     },
 ];

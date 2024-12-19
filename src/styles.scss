@@ -3,18 +3,20 @@
 @include mat.core();
 
 // Define primary, accent and warm palettes
-$my-app-primary: mat.define-palette(mat.$grey-palette, 500, 100, 900);
-$my-app-accent: mat.define-palette(mat.$orange-palette, A200, A100, A400);
-$my-app-warn: mat.define-palette(mat.$red-palette);
+$repRec-primary: mat.define-palette(mat.$grey-palette, $default: 500, $lighter: 200, $darker: 700);
+$repRec-accent: mat.define-palette(mat.$orange-palette, $default: 500, $lighter: 200, $darker: 700);
+$repRec-warn: mat.define-palette(mat.$red-palette);
 
 // Create the app theme based on the defined palettes
-$my-app-theme: mat.define-dark-theme((color: (primary: $my-app-primary,
-                accent: $my-app-accent,
-                warn: $my-app-warn,
-            )));
+$repRec-theme: mat.define-dark-theme((color: (primary: $repRec-primary,
+                accent: $repRec-accent,
+                warn: $repRec-warn,
+            ),
+            density: -2, // Pull all UI Elements a bit closer together for a more compact look
+        ));
 
 // Apply the theme to all components
-@include mat.all-component-themes($my-app-theme);
+@include mat.all-component-themes($repRec-theme);
 
 @tailwind base;
 @tailwind components;

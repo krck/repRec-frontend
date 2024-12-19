@@ -1,6 +1,7 @@
 import { ErrorService, GlobalErrorHandler } from './service/error-service';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { Component, ErrorHandler, ViewChild } from '@angular/core';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { RestApiService } from './service/rest-api.service';
 import { RouterLink, RouterOutlet } from '@angular/router';
@@ -9,12 +10,16 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { UserService } from './service/user-service';
 import { AuthService } from '@auth0/auth0-angular';
+import { RepRecUser } from './models/repRecUser';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatButtonModule],
+  imports: [
+    CommonModule, RouterOutlet, RouterLink, MatToolbarModule, MatSidenavModule,
+    MatIconModule, MatListModule, MatButtonModule, MatExpansionModule
+  ],
   providers: [
     ErrorService,
     // Global error handler, for all Frontend/Angular errors
@@ -44,20 +49,23 @@ export class AppComponent {
       } else {
         this.auth.user$.subscribe(authUser => {
           if (authUser) {
-            // If user is authenticated, save the user data (initial save or update)
-            this.restApiService.saveUser({
+            const repRecUser: RepRecUser = {
               id: authUser.sub ?? "",
               email: authUser.email ?? "",
               emailVerified: authUser.email_verified ?? false,
               nickname: authUser.nickname ?? "",
               createdAt: new Date(Date.now()).toISOString()
-            }).subscribe({
+            };
+
+            // Update the frontend user service
+            this.userService.initializeUser(repRecUser);
+
+            // Update the backend database
+            this.restApiService.saveUser(repRecUser).subscribe({
               next: (response) => {
                 this.userService.initializeUser(response);
               },
-              error: (error) => {
-                // throw
-              }
+              error: (error) => { }
             });
           } else {
             // throw
@@ -78,7 +86,6 @@ export class AppComponent {
     });
   }
 
-  // Method to close the sidenav
   closeSidenav(): void {
     this.sidenav?.close();
   }

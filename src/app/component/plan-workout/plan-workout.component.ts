@@ -1,16 +1,16 @@
 import { RestApiService } from '../../service/rest-api.service';
 import { ErrorService } from '../../service/error-service';
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-plans',
+  selector: 'app-plan-workout',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './plans.component.html',
-  styleUrl: './plans.component.scss'
+  templateUrl: './plan-workout.component.html',
+  styleUrl: './plan-workout.component.scss'
 })
-export class PlansComponent implements OnInit {
+export class PlanWorkoutComponent {
   data: any[] = []; // array to store the data
   loading: boolean = true; // flag to show loading state
 
