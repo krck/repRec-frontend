@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment';
 import { RepRecUser } from '../models/repRecUser';
 import { ErrorService } from './error-service';
 import { Observable, throwError } from 'rxjs';
+import { ErrorLog } from '../models/errorLog';
 import { catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Plan } from '../models/plan';
@@ -23,6 +24,8 @@ export class ApiQueryService {
     getPlans(): Observable<Plan[]> { return this.query<Plan[]>('plan'); }
 
     getUserRoles(): Observable<RepRecUser[]> { return this.query<RepRecUser[]>('users'); }
+
+    getErrorLogs(filterType: number): Observable<ErrorLog[]> { return this.query<ErrorLog[]>('logs', { filterType }); }
 
     //
     // GET

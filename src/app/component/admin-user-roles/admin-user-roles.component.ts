@@ -31,7 +31,7 @@ export class AdminUserRolesComponent implements OnInit {
   displayedColumns: string[] = ['email', 'emailVerified', 'createdAt', 'roleName'];
   userRoleRecords: UserRoleRecord[] = [];
 
-  dataSource = new MatTableDataSource<UserRoleRecord>(this.userRoleRecords);
+  dataSource!: MatTableDataSource<UserRoleRecord>;
 
   @ViewChild(MatSort) sort!: MatSort | null;
 
@@ -51,6 +51,8 @@ export class AdminUserRolesComponent implements OnInit {
             };
           }) ?? []);
         });
+
+        this.dataSource = new MatTableDataSource<UserRoleRecord>(this.userRoleRecords);
 
         // Sort the user roles by email
         this.dataSource.sort = this.sort;

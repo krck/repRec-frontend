@@ -1,12 +1,12 @@
 <div class="p-4">
     <!-- Filter Input -->
-    <mat-form-field class="w-full mb-4">
-        <mat-label>Filter by Role Name</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Filter">
+    <mat-form-field class="w-full" style="margin-bottom: -15px;">
+        <mat-label>Search...</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Search...">
     </mat-form-field>
 
     <!-- Table -->
-    <table mat-table [dataSource]="userRoleRecords" matSort class="w-full">
+    <table mat-table [dataSource]="dataSource" matSort class="w-full">
         <!-- Email Column -->
         <ng-container matColumnDef="email">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
