@@ -1,0 +1,17 @@
+<div class="p-1">
+    <!-- System data - Options List -->
+    <ng-template #adminList>
+        <mat-selection-list role="list">
+            <mat-list-item *ngFor="let option of options" (click)="navigateTo(option.route)">
+                <mat-icon matListItemIcon>category</mat-icon>
+                <div matListItemTitle>{{ option.label }}</div>
+                <div matListItemLine>{{ option.note }}</div>
+            </mat-list-item>
+        </mat-selection-list>
+    </ng-template>
+
+    <!-- Child view (rendered via RouterOutlet) -->
+    <ng-container *ngIf="isChildRoute; else adminList">
+        <router-outlet></router-outlet>
+    </ng-container>
+</div>

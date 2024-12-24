@@ -1,5 +1,8 @@
+import { AdminOptionsExercisecategoryComponent } from './component/admin-options-exercisecategory/admin-options-exercisecategory.component';
+import { AdminOptionsExerciseComponent } from './component/admin-options-exercise/admin-options-exercise.component';
 import { TrainingProgressComponent } from './component/training-progress/training-progress.component';
 import { AdminUserRolesComponent } from './component/admin-user-roles/admin-user-roles.component';
+import { AdminOptionsComponent } from './component/admin-options/admin-options.component';
 import { TrainingYearComponent } from './component/training-year/training-year.component';
 import { TrainingWeekComponent } from './component/training-week/training-week.component';
 import { ShareWorkoutComponent } from './component/share-workout/share-workout.component';
@@ -70,4 +73,21 @@ export const routes: Routes = [
         component: AdminUserRolesComponent,
         canActivate: [AuthGuard]
     },
+    {
+        path: 'admin-options',
+        component: AdminOptionsComponent,
+        canActivate: [AuthGuard],
+        children: [
+            {
+                path: 'admin-options-exercisecategory',
+                component: AdminOptionsExercisecategoryComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'admin-options-exercise',
+                component: AdminOptionsExerciseComponent,
+                canActivate: [AuthGuard]
+            }
+        ]
+    }
 ];
