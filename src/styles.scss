@@ -41,3 +41,13 @@ body {
 .footer {
     padding: 20px;
 }
+
+// -----------------------------------------------
+// Global Table Styles - <table>, <th>, <td>, <tr>
+// -----------------------------------------------
+
+tr:hover {
+    background-color: rgba(255, 175, 83, 0.021);
+    /* Highlight on hover */
+    cursor: pointer;
+}
