@@ -1,6 +1,5 @@
-
-import { ErrorService } from '../../service/error-service';
-import { ApiService } from '../../service/api-service';
+import { ErrorService } from '../../../service/error-service';
+import { ApiService } from '../../../service/api-service';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 

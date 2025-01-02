@@ -2,10 +2,10 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ApiService } from '../../../service/api-service';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { ApiService } from '../../service/api-service';
-import { Role, roles } from '../../enums/roles';
+import { Role, roles } from '../../../enums/roles';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 

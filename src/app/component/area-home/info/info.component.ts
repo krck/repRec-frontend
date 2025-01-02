@@ -1,10 +1,10 @@
-import { environment } from '../../../environments/environment';
-import { UserService } from '../../service/user-service';
-import { ApiService } from '../../service/api-service';
-import { RepRecUser } from '../../models/repRecUser';
+import { environment } from '../../../../environments/environment';
+import { UserService } from '../../../service/user-service';
+import { ApiService } from '../../../service/api-service';
+import { RepRecUser } from '../../../models/repRecUser';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { roles } from '../../enums/roles';
+import { roles } from '../../../enums/roles';
 
 @Component({
   selector: 'app-info',

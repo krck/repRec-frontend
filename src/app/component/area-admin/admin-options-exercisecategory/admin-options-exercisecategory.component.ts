@@ -1,10 +1,10 @@
 import { DeleteConfirmationDialogComponent } from '../../dialogs/delete-confirmation-dialog/delete-confirmation-dialog.component';
 import { ExercisecategoryDialogComponent } from '../../dialogs/exercisecategory-dialog/exercisecategory-dialog.component';
-import { OptExerciseCategory } from '../../models/optExerciseCategory';
+import { OptExerciseCategory } from '../../../models/optExerciseCategory';
 import { MatButtonModule } from '@angular/material/button';
+import { ApiService } from '../../../service/api-service';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
-import { ApiService } from '../../service/api-service';
 import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';

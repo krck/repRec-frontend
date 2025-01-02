@@ -3,10 +3,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { ApiService } from '../../../service/api-service';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { ApiService } from '../../service/api-service';
-import { ErrorLog } from '../../models/errorLog';
+import { ErrorLog } from '../../../models/errorLog';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 

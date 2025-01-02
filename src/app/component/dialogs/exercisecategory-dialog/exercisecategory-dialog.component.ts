@@ -1,12 +1,12 @@
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { OptExerciseCategory } from '../../models/optExerciseCategory';
+import { OptExerciseCategory } from '../../../models/optExerciseCategory';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import { ApiService } from '../../../service/api-service';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { ApiService } from '../../service/api-service';
 import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
