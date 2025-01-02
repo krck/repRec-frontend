@@ -1,11 +1,11 @@
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { ApiQueryService } from '../../service/api-query-service';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { ApiService } from '../../service/api-service';
 import { ErrorLog } from '../../models/errorLog';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -36,7 +36,7 @@ export class AdminLogsComponent implements OnInit {
 
   @ViewChild(MatSort) sort!: MatSort | null;
 
-  constructor(private apiQueryService: ApiQueryService) { }
+  constructor(private apiService: ApiService) { }
 
   ngOnInit() { this.loadLogs(); }
 
@@ -51,7 +51,7 @@ export class AdminLogsComponent implements OnInit {
   }
 
   private loadLogs(): void {
-    this.apiQueryService.getErrorLogs(this.filterType).subscribe(
+    this.apiService.getErrorLogs(this.filterType).subscribe(
       (errorLogs) => {
         this.errorLogRecords = errorLogs;
         this.dataSource = new MatTableDataSource<ErrorLog>(this.errorLogRecords);

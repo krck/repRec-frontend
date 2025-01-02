@@ -1,6 +1,6 @@
-import { ApiQueryService } from '../../service/api-query-service';
 import { environment } from '../../../environments/environment';
 import { UserService } from '../../service/user-service';
+import { ApiService } from '../../service/api-service';
 import { RepRecUser } from '../../models/repRecUser';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -20,7 +20,7 @@ export class InfoComponent implements OnInit {
   apiVersion: string | undefined = undefined;
   webVersion: string | undefined = undefined;
 
-  constructor(public userService: UserService, private apiQueryService: ApiQueryService) { }
+  constructor(public userService: UserService, private apiService: ApiService) { }
 
   ngOnInit() {
     // Subscribe to the user$ observable
@@ -29,7 +29,7 @@ export class InfoComponent implements OnInit {
       this.userRoles = user?.userRoles?.map(r => roles.get(r.roleId) ?? "")
     });
 
-    this.apiQueryService.getApiVersion().subscribe(
+    this.apiService.getApiVersion().subscribe(
       (version) => { this.apiVersion = version.version; },
       (error) => { }
     );

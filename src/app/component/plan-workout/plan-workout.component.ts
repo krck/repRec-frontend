@@ -1,5 +1,6 @@
-import { ApiQueryService } from '../../service/api-query-service';
+
 import { ErrorService } from '../../service/error-service';
+import { ApiService } from '../../service/api-service';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
@@ -14,14 +15,14 @@ export class PlanWorkoutComponent {
   data: any[] = []; // array to store the data
   loading: boolean = true; // flag to show loading state
 
-  constructor(private apiQueryService: ApiQueryService, private errorService: ErrorService) { }
+  constructor(private apiService: ApiService, private errorService: ErrorService) { }
 
   ngOnInit(): void {
     this.fetchData();
   }
 
   fetchData(): void {
-    this.apiQueryService.getPlans().subscribe(
+    this.apiService.getPlans().subscribe(
       (response) => {
         this.data = response; // assign the response data to the data array
         this.loading = false; // hide loading indicator
