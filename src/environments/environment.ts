@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
-    version: '0.0.1',
+    version: '0.0.2',
     apiUrl: 'http://localhost:5205',
     auth: {
         domain: 'dev-reprec.eu.auth0.com',
