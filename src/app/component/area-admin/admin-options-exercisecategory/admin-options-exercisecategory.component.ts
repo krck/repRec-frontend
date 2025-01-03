@@ -20,7 +20,6 @@ import { Router } from '@angular/router';
 })
 export class AdminOptionsExercisecategoryComponent implements OnInit {
 
-  // Columns for Material Table
   exerciseCategoryRecords: OptExerciseCategory[] = [];
   exerciseCategoryDataSource!: MatTableDataSource<OptExerciseCategory>;
   displayedColumns: string[] = ['name', 'actions'];
