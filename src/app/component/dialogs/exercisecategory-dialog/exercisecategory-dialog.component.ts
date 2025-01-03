@@ -62,8 +62,4 @@ export class ExercisecategoryDialogComponent {
     }
   }
 
-  cancel() {
-    this.dialogRef.close();
-  }
-
 }

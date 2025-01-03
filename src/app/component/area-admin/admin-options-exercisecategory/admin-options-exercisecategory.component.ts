@@ -2,8 +2,8 @@ import { DeleteConfirmationDialogComponent } from '../../dialogs/delete-confirma
 import { ExercisecategoryDialogComponent } from '../../dialogs/exercisecategory-dialog/exercisecategory-dialog.component';
 import { OptExerciseCategory } from '../../../models/optExerciseCategory';
 import { MatButtonModule } from '@angular/material/button';
-import { ApiService } from '../../../service/api-service';
 import { MatTableModule } from '@angular/material/table';
+import { ApiService } from '../../../service/api-service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
 export class AdminOptionsExercisecategoryComponent implements OnInit {
 
   // Columns for Material Table
-  displayedColumns: string[] = ['name', 'description', 'actions'];
+  displayedColumns: string[] = ['name', 'actions'];
   exerciseCategories: OptExerciseCategory[] = [];
   loading: boolean = true;
 
@@ -58,6 +58,10 @@ export class AdminOptionsExercisecategoryComponent implements OnInit {
     });
   }
 
+  editCategory(category: any) {
+    this.openDialog(category);
+  }
+
   confirmDelete(categoryId: number) {
     const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent);
     dialogRef.afterClosed().subscribe((confirmed) => {
@@ -71,10 +75,6 @@ export class AdminOptionsExercisecategoryComponent implements OnInit {
         );
       }
     });
-  }
-
-  editCategory(category: any) {
-    this.openDialog(category);
   }
 
   // Navigate back to the main admin options list

@@ -12,7 +12,7 @@ $repRec-theme: mat.define-dark-theme((color: (primary: $repRec-primary,
                 accent: $repRec-accent,
                 warn: $repRec-warn,
             ),
-            density: -2, // Pull all UI Elements a bit closer together for a more compact look
+            density: -1, // Pull all UI Elements a bit closer together for a more compact look
         ));
 
 // Apply the theme to all components

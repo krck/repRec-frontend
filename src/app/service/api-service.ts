@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { OptExerciseCategory } from '../models/optExerciseCategory';
 import { environment } from '../../environments/environment';
+import { OptExercise } from '../models/optExercise';
 import { RepRecUser } from '../models/repRecUser';
 import { ErrorService } from './error-service';
 import { Observable, throwError } from 'rxjs';
@@ -30,6 +31,8 @@ export class ApiService {
 
     getErrorLogs(filterType: number): Observable<ErrorLog[]> { return this.query<ErrorLog[]>('logs', { filterType }); }
 
+    getOptExercises(): Observable<OptExercise[]> { return this.query<OptExercise[]>('optexercise'); }
+
     getOptExerciseCategories(): Observable<OptExerciseCategory[]> { return this.query<OptExerciseCategory[]>('optexercisecategory'); }
 
     // #endregion  QUERY
@@ -37,6 +40,14 @@ export class ApiService {
     // #region MUTATION
 
     saveUser(user: RepRecUser): Observable<RepRecUser> { return this.post<RepRecUser>(`users/${user.id}`, user); }
+
+
+    saveOptExercise(exercise: OptExercise): Observable<OptExercise> { return this.post<OptExercise>('optexercise', exercise); }
+
+    updateOptExercise(exercise: OptExercise): Observable<OptExercise> { return this.put<OptExercise>(`optexercise/${exercise.id}`, exercise); }
+
+    deleteOptExercise(exerciseId: number): Observable<void> { return this.delete<void>(`optexercise/${exerciseId}`); }
+
 
     saveOptExerciseCategory(category: OptExerciseCategory): Observable<OptExerciseCategory> { return this.post<OptExerciseCategory>('optexercisecategory', category); }
 
