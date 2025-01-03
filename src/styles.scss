@@ -1,26 +1,31 @@
 @use '@angular/material' as mat;
-
 @include mat.core();
 
-// Define primary, accent and warm palettes
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// -------------------------------------------------------
+// -------------- Global Application Theme ---------------
+// -------------------------------------------------------
+
 $repRec-primary: mat.define-palette(mat.$grey-palette, $default: 500, $lighter: 200, $darker: 700);
 $repRec-accent: mat.define-palette(mat.$orange-palette, $default: 500, $lighter: 200, $darker: 700);
 $repRec-warn: mat.define-palette(mat.$red-palette);
 
-// Create the app theme based on the defined palettes
 $repRec-theme: mat.define-dark-theme((color: (primary: $repRec-primary,
                 accent: $repRec-accent,
                 warn: $repRec-warn,
             ),
-            density: -2, // Pull all UI Elements a bit closer together for a more compact look
+            density: -1, // Pull all UI Elements a bit closer together for a more compact look
         ));
 
 // Apply the theme to all components
 @include mat.all-component-themes($repRec-theme);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+// -------------------------------------------------------
+// ---- Global Core Styles - <html>, <body>, <footer> ----
+// -------------------------------------------------------
 
 html,
 body {
@@ -40,4 +45,236 @@ body {
 .content,
 .footer {
     padding: 20px;
+}
+
+// -------------------------------------------------------
+// --- Global Table Styles - <table>, <th>, <td>, <tr> ---
+// -------------------------------------------------------
+
+tr:hover {
+    background-color: rgba(255, 175, 83, 0.021);
+    /* Highlight on hover */
+    cursor: pointer;
+}
+
+// -------------------------------------------------------
+// ---------------- Global Color Classes -----------------
+// -------------------------------------------------------
+
+.fg-accent-100 {
+    color: mat.get-color-from-palette($repRec-accent, 100);
+}
+
+.fg-accent-200 {
+    color: mat.get-color-from-palette($repRec-accent, 200);
+}
+
+.fg-accent-300 {
+    color: mat.get-color-from-palette($repRec-accent, 300);
+}
+
+.fg-accent-400 {
+    color: mat.get-color-from-palette($repRec-accent, 400);
+}
+
+.fg-accent-500 {
+    color: mat.get-color-from-palette($repRec-accent, 500);
+}
+
+.fg-accent-600 {
+    color: mat.get-color-from-palette($repRec-accent, 600);
+}
+
+.fg-accent-700 {
+    color: mat.get-color-from-palette($repRec-accent, 700);
+}
+
+.fg-accent-800 {
+    color: mat.get-color-from-palette($repRec-accent, 800);
+}
+
+.fg-accent-900 {
+    color: mat.get-color-from-palette($repRec-accent, 900);
+}
+
+.bg-accent-100 {
+    background-color: mat.get-color-from-palette($repRec-accent, 100);
+}
+
+.bg-accent-200 {
+    background-color: mat.get-color-from-palette($repRec-accent, 200);
+}
+
+.bg-accent-300 {
+    background-color: mat.get-color-from-palette($repRec-accent, 300);
+}
+
+.bg-accent-400 {
+    background-color: mat.get-color-from-palette($repRec-accent, 400);
+}
+
+.bg-accent-500 {
+    background-color: mat.get-color-from-palette($repRec-accent, 500);
+}
+
+.bg-accent-600 {
+    background-color: mat.get-color-from-palette($repRec-accent, 600);
+}
+
+.bg-accent-700 {
+    background-color: mat.get-color-from-palette($repRec-accent, 700);
+}
+
+.bg-accent-800 {
+    background-color: mat.get-color-from-palette($repRec-accent, 800);
+}
+
+.bg-accent-900 {
+    background-color: mat.get-color-from-palette($repRec-accent, 900);
+}
+
+
+.fg-primary-100 {
+    color: mat.get-color-from-palette($repRec-primary, 100);
+}
+
+.fg-primary-200 {
+    color: mat.get-color-from-palette($repRec-primary, 200);
+}
+
+.fg-primary-300 {
+    color: mat.get-color-from-palette($repRec-primary, 300);
+}
+
+.fg-primary-400 {
+    color: mat.get-color-from-palette($repRec-primary, 400);
+}
+
+.fg-primary-500 {
+    color: mat.get-color-from-palette($repRec-primary, 500);
+}
+
+.fg-primary-600 {
+    color: mat.get-color-from-palette($repRec-primary, 600);
+}
+
+.fg-primary-700 {
+    color: mat.get-color-from-palette($repRec-primary, 700);
+}
+
+.fg-primary-800 {
+    color: mat.get-color-from-palette($repRec-primary, 800);
+}
+
+.fg-primary-900 {
+    color: mat.get-color-from-palette($repRec-primary, 900);
+}
+
+.bg-primary-100 {
+    background-color: mat.get-color-from-palette($repRec-primary, 100);
+}
+
+.bg-primary-200 {
+    background-color: mat.get-color-from-palette($repRec-primary, 200);
+}
+
+.bg-primary-300 {
+    background-color: mat.get-color-from-palette($repRec-primary, 300);
+}
+
+.bg-primary-400 {
+    background-color: mat.get-color-from-palette($repRec-primary, 400);
+}
+
+.bg-primary-500 {
+    background-color: mat.get-color-from-palette($repRec-primary, 500);
+}
+
+.bg-primary-600 {
+    background-color: mat.get-color-from-palette($repRec-primary, 600);
+}
+
+.bg-primary-700 {
+    background-color: mat.get-color-from-palette($repRec-primary, 700);
+}
+
+.bg-primary-800 {
+    background-color: mat.get-color-from-palette($repRec-primary, 800);
+}
+
+.bg-primary-900 {
+    background-color: mat.get-color-from-palette($repRec-primary, 900);
+}
+
+
+.fg-warn-100 {
+    color: mat.get-color-from-palette($repRec-warn, 100);
+}
+
+.fg-warn-200 {
+    color: mat.get-color-from-palette($repRec-warn, 200);
+}
+
+.fg-warn-300 {
+    color: mat.get-color-from-palette($repRec-warn, 300);
+}
+
+.fg-warn-400 {
+    color: mat.get-color-from-palette($repRec-warn, 400);
+}
+
+.fg-warn-500 {
+    color: mat.get-color-from-palette($repRec-warn, 500);
+}
+
+.fg-warn-600 {
+    color: mat.get-color-from-palette($repRec-warn, 600);
+}
+
+.fg-warn-700 {
+    color: mat.get-color-from-palette($repRec-warn, 700);
+}
+
+.fg-warn-800 {
+    color: mat.get-color-from-palette($repRec-warn, 800);
+}
+
+.fg-warn-900 {
+    color: mat.get-color-from-palette($repRec-warn, 900);
+}
+
+.bg-warn-100 {
+    background-color: mat.get-color-from-palette($repRec-warn, 100);
+}
+
+.bg-warn-200 {
+    background-color: mat.get-color-from-palette($repRec-warn, 200);
+}
+
+.bg-warn-300 {
+    background-color: mat.get-color-from-palette($repRec-warn, 300);
+}
+
+.bg-warn-400 {
+    background-color: mat.get-color-from-palette($repRec-warn, 400);
+}
+
+.bg-warn-500 {
+    background-color: mat.get-color-from-palette($repRec-warn, 500);
+}
+
+.bg-warn-600 {
+    background-color: mat.get-color-from-palette($repRec-warn, 600);
+}
+
+.bg-warn-700 {
+    background-color: mat.get-color-from-palette($repRec-warn, 700);
+}
+
+.bg-warn-800 {
+    background-color: mat.get-color-from-palette($repRec-warn, 800);
+}
+
+.bg-warn-900 {
+    background-color: mat.get-color-from-palette($repRec-warn, 900);
 }

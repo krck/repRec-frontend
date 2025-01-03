@@ -1,13 +1,16 @@
-import { TrainingProgressComponent } from './component/training-progress/training-progress.component';
-import { AdminUserRolesComponent } from './component/admin-user-roles/admin-user-roles.component';
-import { TrainingYearComponent } from './component/training-year/training-year.component';
-import { TrainingWeekComponent } from './component/training-week/training-week.component';
-import { ShareWorkoutComponent } from './component/share-workout/share-workout.component';
-import { TrainingDayComponent } from './component/training-day/training-day.component';
-import { PlanWorkoutComponent } from './component/plan-workout/plan-workout.component';
-import { AdminLogsComponent } from './component/admin-logs/admin-logs.component';
-import { LogoutComponent } from './component/logout/logout.component';
-import { InfoComponent } from './component/info/info.component';
+import { AdminOptionsExercisecategoryComponent } from './component/area-admin/admin-options-exercisecategory/admin-options-exercisecategory.component';
+import { AdminOptionsExerciseComponent } from './component/area-admin/admin-options-exercise/admin-options-exercise.component';
+import { TrainingProgressComponent } from './component/area-user/training-progress/training-progress.component';
+import { AdminUserRolesComponent } from './component/area-admin/admin-user-roles/admin-user-roles.component';
+import { AdminOptionsComponent } from './component/area-admin/admin-options/admin-options.component';
+import { TrainingYearComponent } from './component/area-user/training-year/training-year.component';
+import { TrainingWeekComponent } from './component/area-user/training-week/training-week.component';
+import { ShareWorkoutComponent } from './component/area-plan/share-workout/share-workout.component';
+import { PlanWorkoutComponent } from './component/area-plan/plan-workout/plan-workout.component';
+import { TrainingDayComponent } from './component/area-user/training-day/training-day.component';
+import { AdminLogsComponent } from './component/area-admin/admin-logs/admin-logs.component';
+import { LogoutComponent } from './component/area-home/logout/logout.component';
+import { InfoComponent } from './component/area-home/info/info.component';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { Routes } from '@angular/router';
 
@@ -70,4 +73,21 @@ export const routes: Routes = [
         component: AdminUserRolesComponent,
         canActivate: [AuthGuard]
     },
+    {
+        path: 'admin-options',
+        component: AdminOptionsComponent,
+        canActivate: [AuthGuard],
+        children: [
+            {
+                path: 'admin-options-exercisecategory',
+                component: AdminOptionsExercisecategoryComponent,
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'admin-options-exercise',
+                component: AdminOptionsExerciseComponent,
+                canActivate: [AuthGuard]
+            }
+        ]
+    }
 ];

@@ -1,6 +1,5 @@
 import { ErrorService, GlobalErrorHandler } from './service/error-service';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
-import { ApiMutationService } from './service/api-mutation-service';
 import { Component, ErrorHandler, ViewChild } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatToolbarModule } from "@angular/material/toolbar";
@@ -9,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { UserService } from './service/user-service';
+import { ApiService } from './service/api-service';
 import { AuthService } from '@auth0/auth0-angular';
 import { RepRecUser } from './models/repRecUser';
 import { CommonModule } from '@angular/common';
@@ -30,7 +30,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent {
 
-  constructor(public auth: AuthService, public userService: UserService, private apiMutationService: ApiMutationService) { }
+  constructor(public auth: AuthService, public userService: UserService, private apiService: ApiService) { }
 
   // Access the sidenav component
   @ViewChild('sidenav') sidenav: MatSidenav | undefined;
@@ -61,7 +61,7 @@ export class AppComponent {
             this.userService.initializeUser(repRecUser);
 
             // Update the backend database
-            this.apiMutationService.saveUser(repRecUser).subscribe({
+            this.apiService.saveUser(repRecUser).subscribe({
               next: (response) => {
                 this.userService.initializeUser(response);
               },

@@ -1,0 +1,55 @@
+<div class="p-4">
+    <!-- Filter Input -->
+    <div class="flex space-x-4 mb-4">
+        <!-- Last Hour Button -->
+        <button class="w-full font-bold" mat-raised-button color="accent" (click)="onFilterButtonClick(1)">
+            Last Hour
+        </button>
+        <!-- Last Day Button -->
+        <button class="w-full font-bold" mat-raised-button color="accent" (click)="onFilterButtonClick(2)">
+            Last Day
+        </button>
+        <!-- Last Week Button -->
+        <button class="w-full font-bold" mat-raised-button color="accent" (click)="onFilterButtonClick(3)">
+            Last Week
+        </button>
+    </div>
+
+    <!-- Table -->
+    <table mat-table [dataSource]="dataSource" matSort class="w-full">
+        <!-- Timestamp Column -->
+        <ng-container matColumnDef="timestamp">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Timestamp</th>
+            <td mat-cell *matCellDef="let user">{{ user.timestamp | date:'medium' }}</td>
+        </ng-container>
+        <!-- Level Column -->
+        <ng-container matColumnDef="level">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Level</th>
+            <td mat-cell *matCellDef="let user">{{ user.level }}</td>
+        </ng-container>
+        <!-- User Name Column -->
+        <ng-container matColumnDef="userName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>User Name</th>
+            <td mat-cell *matCellDef="let user">{{ user.userName }}</td>
+        </ng-container>
+        <!-- Exception Type Column -->
+        <ng-container matColumnDef="exceptionType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Exception Type</th>
+            <td mat-cell *matCellDef="let user">{{ user.exceptionType }}</td>
+        </ng-container>
+        <!-- Message Column -->
+        <ng-container matColumnDef="message">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Message</th>
+            <td mat-cell *matCellDef="let user">{{ user.message }}</td>
+        </ng-container>
+        <!-- Source Column -->
+        <ng-container matColumnDef="source">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Source</th>
+            <td mat-cell *matCellDef="let user">{{ user.source }}</td>
+        </ng-container>
+
+        <!-- Header and Rows -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
