@@ -1,8 +1,9 @@
 import { DeleteConfirmationDialogComponent } from '../../dialogs/delete-confirmation-dialog/delete-confirmation-dialog.component';
 import { ExercisecategoryDialogComponent } from '../../dialogs/exercisecategory-dialog/exercisecategory-dialog.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { OptExerciseCategory } from '../../../models/optExerciseCategory';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTableModule } from '@angular/material/table';
 import { ApiService } from '../../../service/api-service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,15 +14,16 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-admin-options-exercisecategory',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule, MatTableModule],
+  imports: [CommonModule, MatIconModule, MatButtonModule, MatTableModule, MatProgressSpinnerModule],
   templateUrl: './admin-options-exercisecategory.component.html',
   styleUrl: './admin-options-exercisecategory.component.scss'
 })
 export class AdminOptionsExercisecategoryComponent implements OnInit {
 
   // Columns for Material Table
+  exerciseCategoryRecords: OptExerciseCategory[] = [];
+  exerciseCategoryDataSource!: MatTableDataSource<OptExerciseCategory>;
   displayedColumns: string[] = ['name', 'actions'];
-  exerciseCategories: OptExerciseCategory[] = [];
   loading: boolean = true;
 
   constructor(private dialog: MatDialog, private router: Router, private apiService: ApiService) { }
@@ -34,7 +36,9 @@ export class AdminOptionsExercisecategoryComponent implements OnInit {
     this.loading = true;
     this.apiService.getOptExerciseCategories().subscribe(
       (response) => {
-        this.exerciseCategories = response;
+        this.exerciseCategoryRecords = response;
+        this.exerciseCategoryDataSource = new MatTableDataSource<OptExerciseCategory>(this.exerciseCategoryRecords);
+
         this.loading = false;
       },
       (error) => {
@@ -43,7 +47,7 @@ export class AdminOptionsExercisecategoryComponent implements OnInit {
     );
   }
 
-  openDialog(category?: any) {
+  openDialog(category?: any | undefined) {
     const dialogRef = this.dialog.open(ExercisecategoryDialogComponent, { data: category });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
@@ -52,7 +56,8 @@ export class AdminOptionsExercisecategoryComponent implements OnInit {
           Object.assign(category, result);
         } else {
           // Add the new category to the list (UI refresh only by recreating the whole array)
-          this.exerciseCategories = [...this.exerciseCategories, result];
+          this.exerciseCategoryRecords = [...this.exerciseCategoryRecords, result];
+          this.exerciseCategoryDataSource = new MatTableDataSource<OptExerciseCategory>(this.exerciseCategoryRecords);
         }
       }
     });
@@ -69,7 +74,8 @@ export class AdminOptionsExercisecategoryComponent implements OnInit {
         // Delete the category 
         this.apiService.deleteOptExerciseCategory(categoryId).subscribe(
           (response) => {
-            this.exerciseCategories = this.exerciseCategories.filter((c) => c.id !== categoryId);
+            this.exerciseCategoryRecords = this.exerciseCategoryRecords.filter((c) => c.id !== categoryId);
+            this.exerciseCategoryDataSource = new MatTableDataSource<OptExerciseCategory>(this.exerciseCategoryRecords);
           },
           (error) => { /* Handled in API Service */ }
         );

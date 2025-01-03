@@ -1,11 +1,11 @@
 <h2 mat-dialog-title>{{ isEdit ? 'Edit' : 'New' }} Exercise Category</h2>
 <mat-dialog-content>
     <form [formGroup]="exerciseForm" class="space-y-4">
+        <!-- Name -->
         <mat-form-field class="w-full" appearance="fill">
             <mat-label>Name</mat-label>
             <input matInput formControlName="name" required />
         </mat-form-field>
-
         <!-- Category (dynamic dropdown on optExerciseCategoryId: "exerciseCategoryLookup" - Id/Name) -->
         <mat-form-field class="w-full" appearance="fill">
             <mat-label>Category</mat-label>
@@ -13,7 +13,6 @@
                 <mat-option *ngFor="let cat of exerciseCategoryLookup" [value]="cat.id">{{ cat.name }}</mat-option>
             </mat-select>
         </mat-form-field>
-
         <!-- Level (hardcoded dropdown: "Beginner", "Intermediate", "Expert") -->
         <mat-form-field class="w-full" appearance="fill">
             <mat-label>Level</mat-label>
@@ -23,19 +22,16 @@
                 <mat-option value="Expert">Expert</mat-option>
             </mat-select>
         </mat-form-field>
-
         <!-- Primary Muscles -->
         <mat-form-field class="w-full" appearance="fill">
             <mat-label>Primary Muscles</mat-label>
             <input matInput formControlName="primaryMuscles" required />
         </mat-form-field>
-
         <!-- Secondary Muscles -->
         <mat-form-field class="w-full" appearance="fill">
             <mat-label>Secondary Muscles</mat-label>
             <input matInput formControlName="secondaryMuscles" />
         </mat-form-field>
-
         <!-- Mechanic (hardcoded dropdown: "Unknown", "Compound", "Isolation" -->
         <mat-form-field class="w-full" appearance="fill">
             <mat-label>Mechanic</mat-label>
@@ -45,7 +41,6 @@
                 <mat-option value="Isolation">Isolation</mat-option>
             </mat-select>
         </mat-form-field>
-
         <!-- Force (hardcoded dropdown: "Unknown", "Push", "Pull", "Static") -->
         <mat-form-field class="w-full" appearance="fill">
             <mat-label>Force</mat-label>
@@ -56,7 +51,6 @@
                 <mat-option value="Static">Static</mat-option>
             </mat-select>
         </mat-form-field>
-
         <!-- Equipment -->
         <mat-form-field class="w-full" appearance="fill">
             <mat-label>Equipment</mat-label>
@@ -75,13 +69,11 @@
                 <mat-option value="Other">Other</mat-option>
             </mat-select>
         </mat-form-field>
-
         <!-- Instructions -->
         <mat-form-field class="w-full" appearance="fill">
             <mat-label>Instructions</mat-label>
             <textarea matInput formControlName="instructions"></textarea>
         </mat-form-field>
-
     </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

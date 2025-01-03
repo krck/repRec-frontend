@@ -1,10 +1,10 @@
 import { DeleteConfirmationDialogComponent } from '../../dialogs/delete-confirmation-dialog/delete-confirmation-dialog.component';
 import { ExerciseDialogComponent } from '../../dialogs/exercise-dialog/exercise-dialog.component';
-import { OptExerciseCategory } from '../../../models/optExerciseCategory';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { OptExercise } from '../../../models/optExercise';
 import { ApiService } from '../../../service/api-service';
-import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
@@ -14,16 +14,16 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-admin-options-exercise',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule, MatTableModule],
+  imports: [CommonModule, MatIconModule, MatButtonModule, MatTableModule, MatProgressSpinnerModule],
   templateUrl: './admin-options-exercise.component.html',
   styleUrl: './admin-options-exercise.component.scss'
 })
 export class AdminOptionsExerciseComponent implements OnInit {
 
-  // Columns for Material Table
+  exerciseRecords: OptExercise[] = [];
+  exerciseDataSource!: MatTableDataSource<OptExercise>;
   displayedColumns: string[] = ['name', 'actions'];
   exerciseCategoryLookup: Map<number, string> = new Map<number, string>();
-  exercises: OptExercise[] = [];
   loading: boolean = true;
 
   constructor(private dialog: MatDialog, private router: Router, private apiService: ApiService) { }
@@ -38,7 +38,9 @@ export class AdminOptionsExerciseComponent implements OnInit {
     this.apiService.getOptExercises().subscribe(
       (response) => {
         // Order response by exercise name
-        this.exercises = response.sort((a, b) => a.name.localeCompare(b.name));
+        this.exerciseRecords = response.sort((a, b) => a.name.localeCompare(b.name));
+        this.exerciseDataSource = new MatTableDataSource<OptExercise>(this.exerciseRecords);
+
         this.loading = false;
       },
       (error) => {
@@ -55,7 +57,7 @@ export class AdminOptionsExerciseComponent implements OnInit {
     );
   }
 
-  openDialog(exercise?: any) {
+  openDialog(exercise?: any | undefined) {
     const dialogRef = this.dialog.open(ExerciseDialogComponent, { data: exercise });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
@@ -64,7 +66,8 @@ export class AdminOptionsExerciseComponent implements OnInit {
           Object.assign(exercise, result);
         } else {
           // Add the new exercise to the list (UI refresh only by recreating the whole array)
-          this.exercises = [...this.exercises, result];
+          this.exerciseRecords = [...this.exerciseRecords, result].sort((a, b) => a.name.localeCompare(b.name));
+          this.exerciseDataSource = new MatTableDataSource<OptExercise>(this.exerciseRecords);
         }
       }
     });
@@ -81,7 +84,8 @@ export class AdminOptionsExerciseComponent implements OnInit {
         // Delete the exercise 
         this.apiService.deleteOptExercise(exerciseId).subscribe(
           (response) => {
-            this.exercises = this.exercises.filter((c) => c.id !== exerciseId);
+            this.exerciseRecords = this.exerciseRecords.filter((c) => c.id !== exerciseId);
+            this.exerciseDataSource = new MatTableDataSource<OptExercise>(this.exerciseRecords);
           },
           (error) => { /* Handled in API Service */ }
         );
