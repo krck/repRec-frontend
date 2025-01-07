@@ -1,19 +1,58 @@
-<p>plan-workout works!</p>
-<div *ngIf="loading">Loading...</div>
+<div>
+    <div class="mb-4 flex justify-between">
+        <!-- Back button -->
+        <div></div>
+        <!-- <button mat-mini-fab color="primary" (click)="goBack()">
+            <mat-icon>arrow_back_ios_new</mat-icon>
+        </button> -->
+        <!-- Title (centered) -->
+        <h2 class="text-center">Plan Workouts</h2>
+        <!-- New Button -->
+        <button mat-mini-fab color="accent" (click)="openDialog()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
 
-<table *ngIf="!loading" border="1">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Date</th>
-            <th>Name</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let item of data">
-            <td>{{ item.id }}</td>
-            <td>{{ item.date }}</td>
-            <td>{{ item.name }}</td>
-        </tr>
-    </tbody>
-</table>
+    <!-- Table of Plan Workouts -->
+    <div class="overflow-x-auto">
+        <!-- Loading Spinner -->
+        <div *ngIf="loading" class="flex justify-center">
+            <mat-spinner></mat-spinner>
+        </div>
+        <!-- No data message -->
+        <div *ngIf="!loading && !planWorkoutDataSource?.data?.length" class="flex justify-center">
+            <p class="fg-accent-500">No data available</p>
+        </div>
+        <!-- Table with PlanWorkout data -->
+        <table mat-table [dataSource]="planWorkoutDataSource" *ngIf="!loading && planWorkoutDataSource.data.length"
+            class="mat-elevation-z8 w-full">
+            <ng-container matColumnDef="name">
+                <!-- <th mat-header-cell *matHeaderCellDef>Name</th> -->
+                <td mat-cell *matCellDef="let planWorkout" class="font-bold">{{ planWorkout.name }}</td>
+            </ng-container>
+            <ng-container matColumnDef="createdAt">
+                <!-- <th mat-header-cell *matHeaderCellDef>Created At</th> -->
+                <td mat-cell *matCellDef="let planWorkout">{{ planWorkout.createdAt | date: 'mediumDate' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <!-- <th mat-header-cell *matHeaderCellDef>Actions</th> -->
+                <td mat-cell *matCellDef="let planWorkout">
+                    <div class="flex justify-end m-0">
+                        <button mat-icon-button color="primary"
+                            (click)="editPlanWorkout(planWorkout); $event.stopPropagation()">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn"
+                            (click)="confirmDelete(planWorkout.id); $event.stopPropagation()">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </td>
+            </ng-container>
+
+            <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="clickable-row"
+                (click)="onRowClick(row)"></tr>
+        </table>
+    </div>
+</div>
