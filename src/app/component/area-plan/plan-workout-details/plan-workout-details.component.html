@@ -1,1 +1,18 @@
-<p>plan-workout-details works!</p>
+<div>
+    <div class="mb-4 flex justify-between">
+        <!-- Back button -->
+        <button mat-mini-fab color="primary" (click)="goBack()">
+            <mat-icon>arrow_back_ios_new</mat-icon>
+        </button>
+        <!-- Title (centered) -->
+        <h2 class="text-center">{{planWorkout.name}}</h2>
+        <!-- New Button -->
+        <button mat-mini-fab color="accent" (click)="openDialog()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+
+    <div>
+
+    </div>
+</div>

@@ -1,20 +1,22 @@
 import { DeleteConfirmationDialogComponent } from '../../dialogs/delete-confirmation-dialog/delete-confirmation-dialog.component';
 import { PlanworkoutDialogComponent } from '../../dialogs/planworkout-dialog/planworkout-dialog.component';
+import { ShareServicePlanWorkout } from '../../../service/share-service-planWorkout';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { PlanWorkout } from '../../../models/planWorkout';
 import { ApiService } from '../../../service/api-service';
+import { Router, RouterOutlet } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-plan-workout',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule, MatTableModule, MatProgressSpinnerModule],
+  imports: [CommonModule, MatIconModule, MatButtonModule, MatMenuModule, MatTableModule, MatProgressSpinnerModule, RouterOutlet],
   templateUrl: './plan-workout.component.html',
   styleUrl: './plan-workout.component.scss'
 })
@@ -25,14 +27,25 @@ export class PlanWorkoutComponent implements OnInit {
   displayedColumns: string[] = ['name', 'createdAt', 'actions'];
   loading: boolean = true;
 
-  constructor(private dialog: MatDialog, private router: Router, private apiService: ApiService) { }
+  constructor(
+    private dialog: MatDialog,
+    private router: Router,
+    private apiService: ApiService,
+    private shareServicePlanWorkout: ShareServicePlanWorkout
+  ) { }
 
   ngOnInit() {
     this.fetchData();
   }
 
-  onRowClick(row: any): void {
-    this.router.navigate(['/plan-workout-details', row.id]);
+  onRowClick(planWorkout: PlanWorkout): void {
+    this.shareServicePlanWorkout.setWorkout(planWorkout); // Store the full object in the share-service
+    this.router.navigate(['/plan-workout/plan-workout-details', planWorkout.id]);
+  }
+
+  // Check if the current route is a child route
+  get isChildRoute(): boolean {
+    return this.router.url !== '/plan-workout';
   }
 
   fetchData(): void {

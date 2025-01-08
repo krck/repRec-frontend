@@ -1,58 +1,80 @@
 <div>
-    <div class="mb-4 flex justify-between">
-        <!-- Back button -->
-        <div></div>
-        <!-- <button mat-mini-fab color="primary" (click)="goBack()">
+    <ng-template #planWorkoutForm>
+        <div class="mb-4 flex justify-between">
+            <!-- Back button -->
+            <div></div>
+            <!-- <button mat-mini-fab color="primary" (click)="goBack()">
             <mat-icon>arrow_back_ios_new</mat-icon>
         </button> -->
-        <!-- Title (centered) -->
-        <h2 class="text-center">Plan Workouts</h2>
-        <!-- New Button -->
-        <button mat-mini-fab color="accent" (click)="openDialog()">
-            <mat-icon>add</mat-icon>
-        </button>
-    </div>
-
-    <!-- Table of Plan Workouts -->
-    <div class="overflow-x-auto">
-        <!-- Loading Spinner -->
-        <div *ngIf="loading" class="flex justify-center">
-            <mat-spinner></mat-spinner>
+            <!-- Title (centered) -->
+            <h2 class="text-center">Plan Workouts</h2>
+            <!-- New Button -->
+            <button mat-mini-fab color="accent" (click)="openDialog()">
+                <mat-icon>add</mat-icon>
+            </button>
         </div>
-        <!-- No data message -->
-        <div *ngIf="!loading && !planWorkoutDataSource?.data?.length" class="flex justify-center">
-            <p class="fg-accent-500">No data available</p>
-        </div>
-        <!-- Table with PlanWorkout data -->
-        <table mat-table [dataSource]="planWorkoutDataSource" *ngIf="!loading && planWorkoutDataSource.data.length"
-            class="mat-elevation-z8 w-full">
-            <ng-container matColumnDef="name">
-                <!-- <th mat-header-cell *matHeaderCellDef>Name</th> -->
-                <td mat-cell *matCellDef="let planWorkout" class="font-bold">{{ planWorkout.name }}</td>
-            </ng-container>
-            <ng-container matColumnDef="createdAt">
-                <!-- <th mat-header-cell *matHeaderCellDef>Created At</th> -->
-                <td mat-cell *matCellDef="let planWorkout">{{ planWorkout.createdAt | date: 'mediumDate' }}</td>
-            </ng-container>
-            <ng-container matColumnDef="actions">
-                <!-- <th mat-header-cell *matHeaderCellDef>Actions</th> -->
-                <td mat-cell *matCellDef="let planWorkout">
-                    <div class="flex justify-end m-0">
-                        <button mat-icon-button color="primary"
-                            (click)="editPlanWorkout(planWorkout); $event.stopPropagation()">
-                            <mat-icon>edit</mat-icon>
-                        </button>
-                        <button mat-icon-button color="warn"
-                            (click)="confirmDelete(planWorkout.id); $event.stopPropagation()">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </div>
-                </td>
-            </ng-container>
 
-            <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="clickable-row"
-                (click)="onRowClick(row)"></tr>
-        </table>
-    </div>
+        <!-- Table of Plan Workouts -->
+        <div class="overflow-x-auto">
+            <!-- Loading Spinner -->
+            <div *ngIf="loading" class="flex justify-center">
+                <mat-spinner></mat-spinner>
+            </div>
+            <!-- No data message -->
+            <div *ngIf="!loading && !planWorkoutDataSource?.data?.length" class="flex justify-center">
+                <p class="fg-accent-500">No data available</p>
+            </div>
+            <!-- Table with PlanWorkout data -->
+            <table mat-table [dataSource]="planWorkoutDataSource" *ngIf="!loading && planWorkoutDataSource.data.length"
+                class="mat-elevation-z8 w-full">
+                <ng-container matColumnDef="name">
+                    <!-- <th mat-header-cell *matHeaderCellDef>Name</th> -->
+                    <td mat-cell *matCellDef="let planWorkout" class="font-bold">{{ planWorkout.name }}</td>
+                </ng-container>
+                <ng-container matColumnDef="createdAt">
+                    <!-- <th mat-header-cell *matHeaderCellDef>Created At</th> -->
+                    <td mat-cell *matCellDef="let planWorkout">{{ planWorkout.createdAt | date: 'mediumDate' }}</td>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <!-- <th mat-header-cell *matHeaderCellDef>Actions</th> -->
+                    <td mat-cell *matCellDef="let planWorkout">
+                        <div class="flex justify-end m-0">
+                            <!-- Table-Row context menu "..." button, that opens a menu with other buttons -->
+                            <button mat-icon-button [matMenuTriggerFor]="rowMenu" (click)="$event.stopPropagation()">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <!-- Context menu with buttons -->
+                            <mat-menu #rowMenu="matMenu">
+                                <button mat-menu-item (click)="editPlanWorkout(planWorkout); $event.stopPropagation()">
+                                    <mat-icon color="primary">edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+                                <button mat-menu-item disabled>
+                                    <mat-icon color="primary">file_copy</mat-icon>
+                                    <span>Duplicate</span>
+                                </button>
+                                <button mat-menu-item disabled>
+                                    <mat-icon color="primary">ios_share</mat-icon>
+                                    <span>Share</span>
+                                </button>
+                                <button mat-menu-item (click)="confirmDelete(planWorkout.id); $event.stopPropagation()">
+                                    <mat-icon color="warn">delete</mat-icon>
+                                    <span>Delete</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="clickable-row"
+                    (click)="onRowClick(row)"></tr>
+            </table>
+        </div>
+    </ng-template>
+
+    <!-- Child view (rendered via RouterOutlet) -->
+    <ng-container *ngIf="isChildRoute; else planWorkoutForm">
+        <router-outlet></router-outlet>
+    </ng-container>
 </div>
