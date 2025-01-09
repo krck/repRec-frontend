@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { OptExerciseCategory } from '../models/optExerciseCategory';
+import { PlanWorkoutExercise } from '../models/planWorkoutExercise';
 import { environment } from '../../environments/environment';
 import { OptExercise } from '../models/optExercise';
 import { PlanWorkout } from '../models/planWorkout';
@@ -27,6 +28,10 @@ export class ApiService {
 
     getPlanWorkouts(): Observable<PlanWorkout[]> { return this.query<PlanWorkout[]>('planworkout'); }
 
+    getPlanWorkoutExercises(planWorkoutId: number): Observable<PlanWorkoutExercise[]> {
+        return this.query<PlanWorkoutExercise[]>('planworkoutexercise', { planWorkoutId });
+    }
+
     getUserRoles(): Observable<RepRecUser[]> { return this.query<RepRecUser[]>('users'); }
 
     getErrorLogs(filterType: number): Observable<ErrorLog[]> { return this.query<ErrorLog[]>('logs', { filterType }); }
@@ -39,19 +44,53 @@ export class ApiService {
 
     // #region MUTATION
 
-    saveUser(user: RepRecUser): Observable<RepRecUser> { return this.post<RepRecUser>(`users/${user.id}`, user); }
+    saveUser(user: RepRecUser): Observable<RepRecUser> {
+        return this.post<RepRecUser>(`users/${user.id}`, user);
+    }
 
-    savePlanWorkout(planWorkout: PlanWorkout): Observable<PlanWorkout> { return this.post<PlanWorkout>('planworkout', planWorkout); }
-    updatePlanWorkout(planWorkout: PlanWorkout): Observable<PlanWorkout> { return this.put<PlanWorkout>(`planworkout/${planWorkout.id}`, planWorkout); }
-    deletePlanWorkout(planWorkoutId: number): Observable<void> { return this.delete<void>(`planworkout/${planWorkoutId}`); }
 
-    saveOptExercise(exercise: OptExercise): Observable<OptExercise> { return this.post<OptExercise>('optexercise', exercise); }
-    updateOptExercise(exercise: OptExercise): Observable<OptExercise> { return this.put<OptExercise>(`optexercise/${exercise.id}`, exercise); }
-    deleteOptExercise(exerciseId: number): Observable<void> { return this.delete<void>(`optexercise/${exerciseId}`); }
+    savePlanWorkout(planWorkout: PlanWorkout): Observable<PlanWorkout> {
+        return this.post<PlanWorkout>('planworkout', planWorkout);
+    }
+    updatePlanWorkout(planWorkout: PlanWorkout): Observable<PlanWorkout> {
+        return this.put<PlanWorkout>(`planworkout/${planWorkout.id}`, planWorkout);
+    }
+    deletePlanWorkout(planWorkoutId: number): Observable<void> {
+        return this.delete<void>(`planworkout/${planWorkoutId}`);
+    }
 
-    saveOptExerciseCategory(category: OptExerciseCategory): Observable<OptExerciseCategory> { return this.post<OptExerciseCategory>('optexercisecategory', category); }
-    updateOptExerciseCategory(category: OptExerciseCategory): Observable<OptExerciseCategory> { return this.put<OptExerciseCategory>(`optexercisecategory/${category.id}`, category); }
-    deleteOptExerciseCategory(categoryId: number): Observable<void> { return this.delete<void>(`optexercisecategory/${categoryId}`); }
+
+    savePlanWorkoutExercise(exercise: PlanWorkoutExercise): Observable<PlanWorkoutExercise> {
+        return this.post<PlanWorkoutExercise>('planworkoutexercise', exercise);
+    }
+    updatePlanWorkoutExercise(exercise: PlanWorkoutExercise): Observable<PlanWorkoutExercise> {
+        return this.put<PlanWorkoutExercise>(`planworkoutexercise/${exercise.id}`, exercise);
+    }
+    deletePlanWorkoutExercise(exerciseId: number): Observable<void> {
+        return this.delete<void>(`planworkoutexercise/${exerciseId}`);
+    }
+
+
+    saveOptExercise(exercise: OptExercise): Observable<OptExercise> {
+        return this.post<OptExercise>('optexercise', exercise);
+    }
+    updateOptExercise(exercise: OptExercise): Observable<OptExercise> {
+        return this.put<OptExercise>(`optexercise/${exercise.id}`, exercise);
+    }
+    deleteOptExercise(exerciseId: number): Observable<void> {
+        return this.delete<void>(`optexercise/${exerciseId}`);
+    }
+
+
+    saveOptExerciseCategory(category: OptExerciseCategory): Observable<OptExerciseCategory> {
+        return this.post<OptExerciseCategory>('optexercisecategory', category);
+    }
+    updateOptExerciseCategory(category: OptExerciseCategory): Observable<OptExerciseCategory> {
+        return this.put<OptExerciseCategory>(`optexercisecategory/${category.id}`, category);
+    }
+    deleteOptExerciseCategory(categoryId: number): Observable<void> {
+        return this.delete<void>(`optexercisecategory/${categoryId}`);
+    }
 
     //#endregion MUTATION
 

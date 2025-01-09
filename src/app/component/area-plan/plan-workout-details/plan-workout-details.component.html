@@ -12,8 +12,7 @@
         </button>
     </div>
 
-
-    <div>
+    <div class="mx-4">
         <div class="day-container">
             <div class="text-center fg-accent-500 m-1">Monday</div>
             <div cdkDropList #mondayList="cdkDropList" [cdkDropListData]="mondayArr"
@@ -24,9 +23,22 @@
                     <!-- Drag and Drop Icon-->
                     <mat-icon>drag_indicator</mat-icon>
                     <div>{{item}}</div>
-                    <button mat-mini-fab color="warn">
-                        <mat-icon>delete</mat-icon>
-                    </button>
+                    <div>
+                        <!-- Table-Row context menu "..." button, that opens a menu with other buttons -->
+                        <button mat-icon-button [matMenuTriggerFor]="rowMenu" (click)="$event.stopPropagation()">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #rowMenu="matMenu">
+                            <button mat-menu-item (click)="editPlanWorkoutExercise(item); $event.stopPropagation()">
+                                <mat-icon color="primary">edit</mat-icon>
+                                <span>Edit</span>
+                            </button>
+                            <button mat-menu-item (click)="confirmDelete(item); $event.stopPropagation()">
+                                <mat-icon color="warn">delete</mat-icon>
+                                <span>Delete</span>
+                            </button>
+                        </mat-menu>
+                    </div>
                 </div>
                 }
             </div>
@@ -41,9 +53,22 @@
                     <!-- Drag and Drop Icon-->
                     <mat-icon>drag_indicator</mat-icon>
                     <div>{{item}}</div>
-                    <button mat-mini-fab color="warn">
-                        <mat-icon>delete</mat-icon>
-                    </button>
+                    <div>
+                        <!-- Table-Row context menu "..." button, that opens a menu with other buttons -->
+                        <button mat-icon-button [matMenuTriggerFor]="rowMenu" (click)="$event.stopPropagation()">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #rowMenu="matMenu">
+                            <button mat-menu-item (click)="editPlanWorkoutExercise(item); $event.stopPropagation()">
+                                <mat-icon color="primary">edit</mat-icon>
+                                <span>Edit</span>
+                            </button>
+                            <button mat-menu-item (click)="confirmDelete(item); $event.stopPropagation()">
+                                <mat-icon color="warn">delete</mat-icon>
+                                <span>Delete</span>
+                            </button>
+                        </mat-menu>
+                    </div>
                 </div>
                 }
             </div>
