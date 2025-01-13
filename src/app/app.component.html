@@ -13,8 +13,6 @@
         <mat-nav-list dense>
           <a mat-list-item routerLink="/" class="flex justify-center space-x-2" (click)="closeSidenav()"><mat-icon
               class="align-middle mr-2">home</mat-icon>Home</a>
-          <a mat-list-item routerLink="/info" class="flex justify-center space-x-2" (click)="closeSidenav()"><mat-icon
-              class="align-middle mr-2">info</mat-icon>Info</a>
           <mat-expansion-panel [expanded]="true">
             <mat-expansion-panel-header>
               <mat-panel-title class="text-[color:mat-color($my-app-accent)]">Training</mat-panel-title>
@@ -54,13 +52,6 @@
                 <mat-icon class="align-middle mr-2">settings_applications</mat-icon>System Data</a>
             </mat-nav-list>
           </mat-expansion-panel>
-
-          <!-- Logout Button as part of the side-nav -->
-          <div class="flex justify-center">
-            <button class="mt-10" mat-raised-button color="accent" (click)="logout()">
-              Logout
-            </button>
-          </div>
         </mat-nav-list>
       </mat-sidenav>
 
@@ -73,12 +64,26 @@
           </button>
           <!-- <span class="app-name text-lg font-bold ml-2">RepRec</span> -->
 
-          <!-- Center Section: Central Text -->
-          <span class="toolbar-title flex-grow text-center text-lg">
-          </span>
-
-          <!-- Right Section: App Logo -->
+          <!-- Center Section: App Logo -->
           <img class="app-logo h-10" src="assets/favicon.png" alt="App Logo">
+
+          <!-- Right Section: User Context-Menu -->
+          <div class="flex items-center space-x-2">
+            <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="User Menu">
+              <mat-icon>account_circle</mat-icon>
+            </button>
+            <mat-menu #userMenu="matMenu">
+              <a mat-menu-item routerLink="/settings" class="flex justify-center space-x-2"
+                (click)="closeSidenav()"><mat-icon class="align-middle mr-2">person</mat-icon>User Settings</a>
+              <a mat-menu-item routerLink="/info" class="flex justify-center space-x-2"
+                (click)="closeSidenav()"><mat-icon class="align-middle mr-2">info</mat-icon>User Info</a>
+              <div class="flex justify-center">
+                <button class="mt-10" mat-raised-button color="accent" (click)="logout()">
+                  Logout
+                </button>
+              </div>
+            </mat-menu>
+          </div>
         </mat-toolbar>
 
         <div class="content">

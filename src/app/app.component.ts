@@ -6,6 +6,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { UserService } from './service/user-service';
 import { ApiService } from './service/api-service';
@@ -18,7 +19,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [
     CommonModule, RouterOutlet, RouterLink, MatToolbarModule, MatSidenavModule,
-    MatIconModule, MatListModule, MatButtonModule, MatExpansionModule
+    MatIconModule, MatListModule, MatButtonModule, MatExpansionModule, MatMenuModule
   ],
   providers: [
     ErrorService,

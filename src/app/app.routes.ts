@@ -10,6 +10,7 @@ import { ShareWorkoutComponent } from './component/area-plan/share-workout/share
 import { PlanWorkoutComponent } from './component/area-plan/plan-workout/plan-workout.component';
 import { TrainingDayComponent } from './component/area-user/training-day/training-day.component';
 import { AdminLogsComponent } from './component/area-admin/admin-logs/admin-logs.component';
+import { SettingsComponent } from './component/area-home/settings/settings.component';
 import { LogoutComponent } from './component/area-home/logout/logout.component';
 import { InfoComponent } from './component/area-home/info/info.component';
 import { AuthGuard } from '@auth0/auth0-angular';
@@ -33,6 +34,11 @@ export const routes: Routes = [
     {
         path: 'info',
         component: InfoComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'settings',
+        component: SettingsComponent,
         canActivate: [AuthGuard]
     },
     // Training / User-Role Routes
