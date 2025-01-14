@@ -29,7 +29,7 @@ export class ApiService {
     getPlanWorkouts(): Observable<PlanWorkout[]> { return this.query<PlanWorkout[]>('planworkout'); }
 
     getPlanWorkoutExercises(planWorkoutId: number): Observable<PlanWorkoutExercise[]> {
-        return this.query<PlanWorkoutExercise[]>('planworkoutexercise', { planWorkoutId });
+        return this.query<PlanWorkoutExercise[]>(`planworkoutexercise/${planWorkoutId}`);
     }
 
     getUserRoles(): Observable<RepRecUser[]> { return this.query<RepRecUser[]>('users'); }

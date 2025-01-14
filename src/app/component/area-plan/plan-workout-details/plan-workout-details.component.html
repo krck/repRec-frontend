@@ -14,11 +14,11 @@
 
     <div>
         <!-- Loading Spinner -->
-        <div *ngIf="loading" class="flex justify-center">
+        <div *ngIf="(dataLoading || optionsLoading)" class="flex justify-center">
             <mat-spinner></mat-spinner>
         </div>
         <!-- Drag-and-Drop Days with PlanWorkout Exercises -->
-        <div class="mx-4" *ngIf="!loading">
+        <div class="mx-4" *ngIf="(!dataLoading && !optionsLoading)">
             <div class="day-container">
                 <div class="text-center fg-accent-500 m-1">Monday</div>
                 <div cdkDropList #mondayList="cdkDropList" [cdkDropListData]="mondayArr"
@@ -28,7 +28,7 @@
                     <div class="day-box bg-primary-800" cdkDrag>
                         <!-- Drag and Drop Icon-->
                         <mat-icon>drag_indicator</mat-icon>
-                        <div>{{item}}</div>
+                        <div>{{exerciseLookup.get(item.optExerciseId)}}</div>
                         <div>
                             <!-- Table-Row context menu "..." button, that opens a menu with other buttons -->
                             <button mat-icon-button [matMenuTriggerFor]="rowMenu" (click)="$event.stopPropagation()">
@@ -58,7 +58,7 @@
                     <div class="day-box bg-primary-800" cdkDrag>
                         <!-- Drag and Drop Icon-->
                         <mat-icon>drag_indicator</mat-icon>
-                        <div>{{item}}</div>
+                        <div>{{exerciseLookup.get(item.optExerciseId)}}</div>
                         <div>
                             <!-- Table-Row context menu "..." button, that opens a menu with other buttons -->
                             <button mat-icon-button [matMenuTriggerFor]="rowMenu" (click)="$event.stopPropagation()">
@@ -88,10 +88,23 @@
                     <div class="day-box bg-primary-800" cdkDrag>
                         <!-- Drag and Drop Icon-->
                         <mat-icon>drag_indicator</mat-icon>
-                        <div>{{item}}</div>
-                        <button mat-mini-fab color="warn">
-                            <mat-icon>delete</mat-icon>
-                        </button>
+                        <div>{{exerciseLookup.get(item.optExerciseId)}}</div>
+                        <div>
+                            <!-- Table-Row context menu "..." button, that opens a menu with other buttons -->
+                            <button mat-icon-button [matMenuTriggerFor]="rowMenu" (click)="$event.stopPropagation()">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #rowMenu="matMenu">
+                                <button mat-menu-item (click)="editPlanWorkoutExercise(item); $event.stopPropagation()">
+                                    <mat-icon color="primary">edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+                                <button mat-menu-item (click)="confirmDelete(item); $event.stopPropagation()">
+                                    <mat-icon color="warn">delete</mat-icon>
+                                    <span>Delete</span>
+                                </button>
+                            </mat-menu>
+                        </div>
                     </div>
                     }
                 </div>
@@ -105,10 +118,23 @@
                     <div class="day-box bg-primary-800" cdkDrag>
                         <!-- Drag and Drop Icon-->
                         <mat-icon>drag_indicator</mat-icon>
-                        <div>{{item}}</div>
-                        <button mat-mini-fab color="warn">
-                            <mat-icon>delete</mat-icon>
-                        </button>
+                        <div>{{exerciseLookup.get(item.optExerciseId)}}</div>
+                        <div>
+                            <!-- Table-Row context menu "..." button, that opens a menu with other buttons -->
+                            <button mat-icon-button [matMenuTriggerFor]="rowMenu" (click)="$event.stopPropagation()">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #rowMenu="matMenu">
+                                <button mat-menu-item (click)="editPlanWorkoutExercise(item); $event.stopPropagation()">
+                                    <mat-icon color="primary">edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+                                <button mat-menu-item (click)="confirmDelete(item); $event.stopPropagation()">
+                                    <mat-icon color="warn">delete</mat-icon>
+                                    <span>Delete</span>
+                                </button>
+                            </mat-menu>
+                        </div>
                     </div>
                     }
                 </div>
@@ -122,10 +148,23 @@
                     <div class="day-box bg-primary-800" cdkDrag>
                         <!-- Drag and Drop Icon-->
                         <mat-icon>drag_indicator</mat-icon>
-                        <div>{{item}}</div>
-                        <button mat-mini-fab color="warn">
-                            <mat-icon>delete</mat-icon>
-                        </button>
+                        <div>{{exerciseLookup.get(item.optExerciseId)}}</div>
+                        <div>
+                            <!-- Table-Row context menu "..." button, that opens a menu with other buttons -->
+                            <button mat-icon-button [matMenuTriggerFor]="rowMenu" (click)="$event.stopPropagation()">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #rowMenu="matMenu">
+                                <button mat-menu-item (click)="editPlanWorkoutExercise(item); $event.stopPropagation()">
+                                    <mat-icon color="primary">edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+                                <button mat-menu-item (click)="confirmDelete(item); $event.stopPropagation()">
+                                    <mat-icon color="warn">delete</mat-icon>
+                                    <span>Delete</span>
+                                </button>
+                            </mat-menu>
+                        </div>
                     </div>
                     }
                 </div>
@@ -139,10 +178,23 @@
                     <div class="day-box bg-primary-800" cdkDrag>
                         <!-- Drag and Drop Icon-->
                         <mat-icon>drag_indicator</mat-icon>
-                        <div>{{item}}</div>
-                        <button mat-mini-fab color="warn">
-                            <mat-icon>delete</mat-icon>
-                        </button>
+                        <div>{{exerciseLookup.get(item.optExerciseId)}}</div>
+                        <div>
+                            <!-- Table-Row context menu "..." button, that opens a menu with other buttons -->
+                            <button mat-icon-button [matMenuTriggerFor]="rowMenu" (click)="$event.stopPropagation()">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #rowMenu="matMenu">
+                                <button mat-menu-item (click)="editPlanWorkoutExercise(item); $event.stopPropagation()">
+                                    <mat-icon color="primary">edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+                                <button mat-menu-item (click)="confirmDelete(item); $event.stopPropagation()">
+                                    <mat-icon color="warn">delete</mat-icon>
+                                    <span>Delete</span>
+                                </button>
+                            </mat-menu>
+                        </div>
                     </div>
                     }
                 </div>
@@ -156,10 +208,23 @@
                     <div class="day-box bg-primary-800" cdkDrag>
                         <!-- Drag and Drop Icon-->
                         <mat-icon>drag_indicator</mat-icon>
-                        <div>{{item}}</div>
-                        <button mat-mini-fab color="warn">
-                            <mat-icon>delete</mat-icon>
-                        </button>
+                        <div>{{exerciseLookup.get(item.optExerciseId)}}</div>
+                        <div>
+                            <!-- Table-Row context menu "..." button, that opens a menu with other buttons -->
+                            <button mat-icon-button [matMenuTriggerFor]="rowMenu" (click)="$event.stopPropagation()">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #rowMenu="matMenu">
+                                <button mat-menu-item (click)="editPlanWorkoutExercise(item); $event.stopPropagation()">
+                                    <mat-icon color="primary">edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+                                <button mat-menu-item (click)="confirmDelete(item); $event.stopPropagation()">
+                                    <mat-icon color="warn">delete</mat-icon>
+                                    <span>Delete</span>
+                                </button>
+                            </mat-menu>
+                        </div>
                     </div>
                     }
                 </div>
