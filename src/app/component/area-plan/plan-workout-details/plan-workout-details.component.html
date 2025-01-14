@@ -1,0 +1,235 @@
+<div>
+    <div class="mb-4 flex justify-between">
+        <!-- Back button -->
+        <button mat-mini-fab color="primary" (click)="goBack()">
+            <mat-icon>arrow_back_ios_new</mat-icon>
+        </button>
+        <!-- Title (centered) -->
+        <h2 class="text-center">{{planWorkout.name}}</h2>
+        <!-- New Button -->
+        <button mat-mini-fab color="accent" (click)="openDialog()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+
+    <div>
+        <!-- Loading Spinner -->
+        <div *ngIf="(dataLoading || optionsLoading)" class="flex justify-center">
+            <mat-spinner></mat-spinner>
+        </div>
+        <!-- Drag-and-Drop Days with PlanWorkout Exercises -->
+        <div class="mx-4" *ngIf="(!dataLoading && !optionsLoading)">
+            <div class="day-container">
+                <div class="text-center fg-accent-500 m-1">Monday</div>
+                <div cdkDropList #mondayList="cdkDropList" [cdkDropListData]="mondayArr"
+                    [cdkDropListConnectedTo]="[tuesdayList, wednesdayList, thursdayList, fridayList, saturdayList, sundayList]"
+                    class="day-list" (cdkDropListDropped)="drop($event)">
+                    @for (item of mondayArr; track item) {
+                    <div class="day-box bg-primary-800" cdkDrag>
+                        <!-- Drag and Drop Icon-->
+                        <mat-icon>drag_indicator</mat-icon>
+                        <div>{{exerciseLookup.get(item.optExerciseId)}}</div>
+                        <div>
+                            <!-- Table-Row context menu "..." button, that opens a menu with other buttons -->
+                            <button mat-icon-button [matMenuTriggerFor]="rowMenu" (click)="$event.stopPropagation()">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #rowMenu="matMenu">
+                                <button mat-menu-item (click)="editPlanWorkoutExercise(item); $event.stopPropagation()">
+                                    <mat-icon color="primary">edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+                                <button mat-menu-item (click)="confirmDelete(item); $event.stopPropagation()">
+                                    <mat-icon color="warn">delete</mat-icon>
+                                    <span>Delete</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+            <div class="day-container">
+                <div class="text-center fg-accent-500 m-1">Tuesday</div>
+                <div cdkDropList #tuesdayList="cdkDropList" [cdkDropListData]="tuesdayArr"
+                    [cdkDropListConnectedTo]="[mondayList, wednesdayList, thursdayList, fridayList, saturdayList, sundayList]"
+                    class="day-list" (cdkDropListDropped)="drop($event)">
+                    @for (item of tuesdayArr; track item) {
+                    <div class="day-box bg-primary-800" cdkDrag>
+                        <!-- Drag and Drop Icon-->
+                        <mat-icon>drag_indicator</mat-icon>
+                        <div>{{exerciseLookup.get(item.optExerciseId)}}</div>
+                        <div>
+                            <!-- Table-Row context menu "..." button, that opens a menu with other buttons -->
+                            <button mat-icon-button [matMenuTriggerFor]="rowMenu" (click)="$event.stopPropagation()">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #rowMenu="matMenu">
+                                <button mat-menu-item (click)="editPlanWorkoutExercise(item); $event.stopPropagation()">
+                                    <mat-icon color="primary">edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+                                <button mat-menu-item (click)="confirmDelete(item); $event.stopPropagation()">
+                                    <mat-icon color="warn">delete</mat-icon>
+                                    <span>Delete</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+            <div class="day-container">
+                <div class="text-center fg-accent-500 m-1">Wednesday</div>
+                <div cdkDropList #wednesdayList="cdkDropList" [cdkDropListData]="wednesdayArr"
+                    [cdkDropListConnectedTo]="[mondayList, tuesdayList, thursdayList, fridayList, saturdayList, sundayList]"
+                    class="day-list" (cdkDropListDropped)="drop($event)">
+                    @for (item of wednesdayArr; track item) {
+                    <div class="day-box bg-primary-800" cdkDrag>
+                        <!-- Drag and Drop Icon-->
+                        <mat-icon>drag_indicator</mat-icon>
+                        <div>{{exerciseLookup.get(item.optExerciseId)}}</div>
+                        <div>
+                            <!-- Table-Row context menu "..." button, that opens a menu with other buttons -->
+                            <button mat-icon-button [matMenuTriggerFor]="rowMenu" (click)="$event.stopPropagation()">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #rowMenu="matMenu">
+                                <button mat-menu-item (click)="editPlanWorkoutExercise(item); $event.stopPropagation()">
+                                    <mat-icon color="primary">edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+                                <button mat-menu-item (click)="confirmDelete(item); $event.stopPropagation()">
+                                    <mat-icon color="warn">delete</mat-icon>
+                                    <span>Delete</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+            <div class="day-container">
+                <div class="text-center fg-accent-500 m-1">Thursday</div>
+                <div cdkDropList #thursdayList="cdkDropList" [cdkDropListData]="thursdayArr"
+                    [cdkDropListConnectedTo]="[mondayList, tuesdayList, wednesdayList, fridayList, saturdayList, sundayList]"
+                    class="day-list" (cdkDropListDropped)="drop($event)">
+                    @for (item of thursdayArr; track item) {
+                    <div class="day-box bg-primary-800" cdkDrag>
+                        <!-- Drag and Drop Icon-->
+                        <mat-icon>drag_indicator</mat-icon>
+                        <div>{{exerciseLookup.get(item.optExerciseId)}}</div>
+                        <div>
+                            <!-- Table-Row context menu "..." button, that opens a menu with other buttons -->
+                            <button mat-icon-button [matMenuTriggerFor]="rowMenu" (click)="$event.stopPropagation()">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #rowMenu="matMenu">
+                                <button mat-menu-item (click)="editPlanWorkoutExercise(item); $event.stopPropagation()">
+                                    <mat-icon color="primary">edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+                                <button mat-menu-item (click)="confirmDelete(item); $event.stopPropagation()">
+                                    <mat-icon color="warn">delete</mat-icon>
+                                    <span>Delete</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+            <div class="day-container">
+                <div class="text-center fg-accent-500 m-1">Friday</div>
+                <div cdkDropList #fridayList="cdkDropList" [cdkDropListData]="fridayArr"
+                    [cdkDropListConnectedTo]="[mondayList, tuesdayList, wednesdayList, thursdayList, saturdayList, sundayList]"
+                    class="day-list" (cdkDropListDropped)="drop($event)">
+                    @for (item of fridayArr; track item) {
+                    <div class="day-box bg-primary-800" cdkDrag>
+                        <!-- Drag and Drop Icon-->
+                        <mat-icon>drag_indicator</mat-icon>
+                        <div>{{exerciseLookup.get(item.optExerciseId)}}</div>
+                        <div>
+                            <!-- Table-Row context menu "..." button, that opens a menu with other buttons -->
+                            <button mat-icon-button [matMenuTriggerFor]="rowMenu" (click)="$event.stopPropagation()">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #rowMenu="matMenu">
+                                <button mat-menu-item (click)="editPlanWorkoutExercise(item); $event.stopPropagation()">
+                                    <mat-icon color="primary">edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+                                <button mat-menu-item (click)="confirmDelete(item); $event.stopPropagation()">
+                                    <mat-icon color="warn">delete</mat-icon>
+                                    <span>Delete</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+            <div class="day-container">
+                <div class="text-center fg-accent-500 m-1">Saturday</div>
+                <div cdkDropList #saturdayList="cdkDropList" [cdkDropListData]="saturdayArr"
+                    [cdkDropListConnectedTo]="[mondayList, tuesdayList, wednesdayList, thursdayList, fridayList, sundayList]"
+                    class="day-list" (cdkDropListDropped)="drop($event)">
+                    @for (item of saturdayArr; track item) {
+                    <div class="day-box bg-primary-800" cdkDrag>
+                        <!-- Drag and Drop Icon-->
+                        <mat-icon>drag_indicator</mat-icon>
+                        <div>{{exerciseLookup.get(item.optExerciseId)}}</div>
+                        <div>
+                            <!-- Table-Row context menu "..." button, that opens a menu with other buttons -->
+                            <button mat-icon-button [matMenuTriggerFor]="rowMenu" (click)="$event.stopPropagation()">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #rowMenu="matMenu">
+                                <button mat-menu-item (click)="editPlanWorkoutExercise(item); $event.stopPropagation()">
+                                    <mat-icon color="primary">edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+                                <button mat-menu-item (click)="confirmDelete(item); $event.stopPropagation()">
+                                    <mat-icon color="warn">delete</mat-icon>
+                                    <span>Delete</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+            <div class="day-container">
+                <div class="text-center fg-accent-500 m-1">Sunday</div>
+                <div cdkDropList #sundayList="cdkDropList" [cdkDropListData]="sundayArr"
+                    [cdkDropListConnectedTo]="[mondayList, tuesdayList, wednesdayList, thursdayList, fridayList, saturdayList]"
+                    class="day-list" (cdkDropListDropped)="drop($event)">
+                    @for (item of sundayArr; track item) {
+                    <div class="day-box bg-primary-800" cdkDrag>
+                        <!-- Drag and Drop Icon-->
+                        <mat-icon>drag_indicator</mat-icon>
+                        <div>{{exerciseLookup.get(item.optExerciseId)}}</div>
+                        <div>
+                            <!-- Table-Row context menu "..." button, that opens a menu with other buttons -->
+                            <button mat-icon-button [matMenuTriggerFor]="rowMenu" (click)="$event.stopPropagation()">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #rowMenu="matMenu">
+                                <button mat-menu-item (click)="editPlanWorkoutExercise(item); $event.stopPropagation()">
+                                    <mat-icon color="primary">edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+                                <button mat-menu-item (click)="confirmDelete(item); $event.stopPropagation()">
+                                    <mat-icon color="warn">delete</mat-icon>
+                                    <span>Delete</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -48,11 +48,27 @@ body {
 }
 
 // -------------------------------------------------------
+// ----- Global Input Styles - <mat-from-field>, ... -----
+// -------------------------------------------------------
+
+.mat-form-field {
+    margin-top: 8px !important;
+}
+
+.mat-mdc-form-field {
+    margin-top: 8px !important;
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+    max-height: 0px !important;
+}
+
+// -------------------------------------------------------
 // --- Global Table Styles - <table>, <th>, <td>, <tr> ---
 // -------------------------------------------------------
 
 tr:hover {
-    background-color: rgba(255, 175, 83, 0.021);
+    background-color: mat.get-color-from-palette($repRec-accent, 300, 0.05);
     /* Highlight on hover */
     cursor: pointer;
 }

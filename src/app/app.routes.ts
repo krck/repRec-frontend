@@ -1,5 +1,6 @@
 import { AdminOptionsExercisecategoryComponent } from './component/area-admin/admin-options-exercisecategory/admin-options-exercisecategory.component';
 import { AdminOptionsExerciseComponent } from './component/area-admin/admin-options-exercise/admin-options-exercise.component';
+import { PlanWorkoutDetailsComponent } from './component/area-plan/plan-workout-details/plan-workout-details.component';
 import { TrainingProgressComponent } from './component/area-user/training-progress/training-progress.component';
 import { AdminUserRolesComponent } from './component/area-admin/admin-user-roles/admin-user-roles.component';
 import { AdminOptionsComponent } from './component/area-admin/admin-options/admin-options.component';
@@ -9,25 +10,35 @@ import { ShareWorkoutComponent } from './component/area-plan/share-workout/share
 import { PlanWorkoutComponent } from './component/area-plan/plan-workout/plan-workout.component';
 import { TrainingDayComponent } from './component/area-user/training-day/training-day.component';
 import { AdminLogsComponent } from './component/area-admin/admin-logs/admin-logs.component';
+import { SettingsComponent } from './component/area-home/settings/settings.component';
 import { LogoutComponent } from './component/area-home/logout/logout.component';
 import { InfoComponent } from './component/area-home/info/info.component';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
+    // {
+    //     path: '**',
+    //     redirectTo: 'training-week'
+    // },
     {
-        path: "",
-        redirectTo: "training-week",
-        pathMatch: "full"
+        path: '',
+        redirectTo: 'training-week',
+        pathMatch: 'full'
     },
     {
-        path: "logout",
+        path: 'logout',
         component: LogoutComponent
         // Logout does not require [AuthGuard]
     },
     {
-        path: "info",
+        path: 'info',
         component: InfoComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'settings',
+        component: SettingsComponent,
         canActivate: [AuthGuard]
     },
     // Training / User-Role Routes
@@ -55,7 +66,14 @@ export const routes: Routes = [
     {
         path: 'plan-workout',
         component: PlanWorkoutComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
+        children: [
+            {
+                path: 'plan-workout-details/:id',
+                component: PlanWorkoutDetailsComponent,
+                canActivate: [AuthGuard]
+            }
+        ]
     },
     {
         path: 'share-workout',

@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Edit' : 'New' }} Workout Exercise</h2>
+<mat-dialog-content>
+    <form [formGroup]="workoutExerciseForm" class="space-y-4">
+        <!-- Exercise Category (dynamic dropdown on optExerciseCategoryId: "exerciseCategoryLookup" - Id/Name) -->
+        <mat-form-field class="w-full" appearance="fill">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="optExerciseCategoryId" required
+                (selectionChange)="onCategoryChange($event.value)">
+                <mat-option *ngFor="let cat of exerciseCategoryLookup" [value]="cat.id">{{ cat.name }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <!-- Exercise (dynamic dropdown based on the optExerciseCategoryId - pre-filtered list) -->
+        <mat-form-field class="w-full" appearance="fill">
+            <mat-label>Exercise</mat-label>
+            <mat-select formControlName="optExerciseId" required>
+                <mat-option *ngFor="let ex of exerciseLookup" [value]="ex.id">{{ ex.name }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <!-- Weekday (hardcoded dropdown) -->
+        <mat-form-field class="w-full" appearance="fill">
+            <mat-label>Weekday</mat-label>
+            <mat-select formControlName="dayIndex" required>
+                <mat-option value="0">Monday</mat-option>
+                <mat-option value="1">Tuesday</mat-option>
+                <mat-option value="2">Wednesday</mat-option>
+                <mat-option value="3">Thursday</mat-option>
+                <mat-option value="4">Friday</mat-option>
+                <mat-option value="5">Saturday</mat-option>
+                <mat-option value="6">Sunday</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- CUSTOM INPUT HERE -->
+        <mat-form-field class="w-full" appearance="fill">
+            <mat-label>Any</mat-label>
+            <textarea matInput formControlName="exerciseDefinitionJson"></textarea>
+        </mat-form-field>
+
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="accent" (click)="save()" [disabled]="!workoutExerciseForm.valid">Save</button>
+</mat-dialog-actions>
