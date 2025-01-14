@@ -15,7 +15,9 @@
               class="align-middle mr-2">home</mat-icon>Home</a>
           <mat-expansion-panel [expanded]="true">
             <mat-expansion-panel-header>
-              <mat-panel-title class="text-[color:mat-color($my-app-accent)]">Training</mat-panel-title>
+              <mat-panel-title>
+                <div class="fg-accent-500">Training</div>
+              </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-nav-list class="dense-list">
               <a mat-list-item routerLink="/training-day" (click)="closeSidenav()">
@@ -28,9 +30,11 @@
                 <mat-icon class="align-middle mr-2">trending_up</mat-icon>Training Progress</a>
             </mat-nav-list>
           </mat-expansion-panel>
-          <mat-expansion-panel [expanded]="false">
+          <mat-expansion-panel [expanded]="true">
             <mat-expansion-panel-header>
-              <mat-panel-title>Planning</mat-panel-title>
+              <mat-panel-title>
+                <div class="fg-accent-500">Planning</div>
+              </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-nav-list dense>
               <a mat-list-item routerLink="/plan-workout" (click)="closeSidenav()">
@@ -41,7 +45,9 @@
           </mat-expansion-panel>
           <mat-expansion-panel [expanded]="false">
             <mat-expansion-panel-header>
-              <mat-panel-title>Administration</mat-panel-title>
+              <mat-panel-title>
+                <div class="fg-accent-500">Administration</div>
+              </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-nav-list dense>
               <a mat-list-item routerLink="/admin-logs" (click)="closeSidenav()">
