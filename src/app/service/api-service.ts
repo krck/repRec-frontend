@@ -66,6 +66,9 @@ export class ApiService {
     updatePlanWorkoutExercise(exercise: PlanWorkoutExercise): Observable<PlanWorkoutExercise> {
         return this.put<PlanWorkoutExercise>(`planworkoutexercise/${exercise.id}`, exercise);
     }
+    updatePlanWorkoutExerciseOrder(planWorkoutId: number, planWorkoutExerciseOrders: any[]): Observable<PlanWorkoutExercise> {
+        return this.put<PlanWorkoutExercise>(`planworkoutexercise/order/${planWorkoutId}`, planWorkoutExerciseOrders);
+    }
     deletePlanWorkoutExercise(exerciseId: number): Observable<void> {
         return this.delete<void>(`planworkoutexercise/${exerciseId}`);
     }

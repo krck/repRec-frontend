@@ -95,7 +95,7 @@ export class PlanWorkoutDetailsComponent implements OnInit, OnDestroy {
           // Overwrite with the updated (saved to DB) values
           Object.assign(planWorkoutExercise, result);
           // If the dayIndex has changed, remove from the old day-list
-          if (oldDayIndex && (oldDayIndex !== result.dayIndex)) {
+          if (oldDayIndex !== undefined && (oldDayIndex !== result.dayIndex)) {
             switch (oldDayIndex) {
               case 0: this.mondayArr = this.mondayArr.filter((e) => e.id !== result.id); break;
               case 1: this.tuesdayArr = this.tuesdayArr.filter((e) => e.id !== result.id); break;
@@ -105,6 +105,8 @@ export class PlanWorkoutDetailsComponent implements OnInit, OnDestroy {
               case 5: this.saturdayArr = this.saturdayArr.filter((e) => e.id !== result.id); break;
               case 6: this.sundayArr = this.sundayArr.filter((e) => e.id !== result.id); break;
             }
+          } else {
+            return;
           }
         }
 
@@ -196,14 +198,10 @@ export class PlanWorkoutDetailsComponent implements OnInit, OnDestroy {
       ...this.sundayArr.map((e, idx) => ({ id: e.id, dayIndex: 6, dayOrder: idx })),
     ];
 
-    // this.apiService.savePlanWorkoutState(finalState).subscribe(
-    //   (response) => {
-    //     console.log('Final state saved successfully');
-    //   },
-    //   (error) => {
-    //     console.error('Error saving final state', error);
-    //   }
-    // );
+    this.apiService.updatePlanWorkoutExerciseOrder(this.planWorkoutId, flatDayOrderState).subscribe(
+      (response) => { /* No need to do anything */ },
+      (error) => { /* Handled in API Service */ }
+    );
   }
 
   //#endregion Private Functions
