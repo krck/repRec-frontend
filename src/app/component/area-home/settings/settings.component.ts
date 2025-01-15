@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-settings',
   standalone: true,
   imports: [
-    CommonModule, MatDialogModule, FormsModule, MatSelectModule, MatIconModule,
+    CommonModule, MatDialogModule, ReactiveFormsModule, MatSelectModule, MatIconModule,
     ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule
   ],
   templateUrl: './settings.component.html',
@@ -47,30 +47,33 @@ export class SettingsComponent implements OnInit {
           settingWeightUnit: this.user.settingWeightUnit,
           settingDistanceUnit: this.user.settingDistanceUnit,
         });
+
+        this.settingsForm.valueChanges.subscribe(() => {
+          this.valueChanged();
+        });
       }
     });
   }
 
+  valueChanged(): boolean {
+    if (!this.user) return false;
+    return (
+      this.settingsForm.value.settingTimezone !== this.user.settingTimezone
+      || this.settingsForm.value.settingWeightUnit !== this.user.settingWeightUnit
+      || this.settingsForm.value.settingDistanceUnit !== this.user.settingDistanceUnit
+    );
+  }
+
   save() {
     const resultData = this.settingsForm.value;
-    // if (this.isEdit) {
-    //   // Update an existing Exercise 
-    //   this.apiService.updateOptExercise(this.resultData).subscribe(
-    //     (response) => {
-    //       this.dialogRef.close(response); // Return the updated value
-    //     },
-    //     (error) => { /* Handled in API Service */ }
-    //   );
-    // } else {
-    //   // Save a new Exercise 
-    //   this.resultData.id = 0; // Set to 0, because the backend will generate a new ID
-    //   this.apiService.saveOptExercise(this.resultData).subscribe(
-    //     (response) => {
-    //       this.dialogRef.close(response); // Return the saved value
-    //     },
-    //     (error) => { /* Handled in API Service */ }
-    //   );
-    // }
+    if (this.valueChanged()) {
+      this.apiService.updateUserSettings(resultData).subscribe(
+        (response) => {
+          this.userService.setUser(response); // Update the user in the service
+        },
+        (error) => { /* Handled in API Service */ }
+      );
+    }
   }
 
 }

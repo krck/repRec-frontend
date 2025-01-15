@@ -1,6 +1,6 @@
 <div class="flex justify-center">
-    <h2>User Settings</h2>
     <div class="text-center" style="max-width: 400px; margin: 20px;">
+        <h2>User Settings</h2>
         <p>Change your personal settings here:</p>
         <form [formGroup]="settingsForm" class="space-y-4">
             <mat-form-field class="w-full" appearance="fill">
@@ -38,7 +38,8 @@
             </mat-form-field>
         </form>
         <div>
-            <button mat-raised-button color="accent" (click)="save()" [disabled]="!settingsForm.valid">Save</button>
+            <button mat-raised-button color="accent" style="margin-top: 15px; min-width: 150px;" (click)="save()"
+                [disabled]="(!settingsForm.valid || !valueChanged())">Save</button>
         </div>
     </div>
 </div>

@@ -47,6 +47,9 @@ export class ApiService {
     saveUser(user: RepRecUser): Observable<RepRecUser> {
         return this.post<RepRecUser>(`users/${user.id}`, user);
     }
+    updateUserSettings(us: { id: string; settingTimezone: string; settingWeightUnit: string; settingDistanceUnit: string; }): Observable<RepRecUser> {
+        return this.put<RepRecUser>(`users/settings/${us.id}`, us);
+    }
 
 
     savePlanWorkout(planWorkout: PlanWorkout): Observable<PlanWorkout> {

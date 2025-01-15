@@ -55,19 +55,19 @@ export class AppComponent {
               email: authUser.email ?? "",
               emailVerified: authUser.email_verified ?? false,
               nickname: authUser.nickname ?? "",
-              settingTimezone: "America/New_York",
+              settingTimezone: "Europe/Berlin",
               settingWeightUnit: "kg",
               settingDistanceUnit: "km",
               createdAt: new Date(Date.now()).toISOString()
             };
 
             // Update the frontend user service
-            this.userService.initializeUser(repRecUser);
+            this.userService.setUser(repRecUser);
 
             // Update the backend database
             this.apiService.saveUser(repRecUser).subscribe({
               next: (response) => {
-                this.userService.initializeUser(response);
+                this.userService.setUser(response);
               },
               error: (error) => { }
             });
