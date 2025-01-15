@@ -55,6 +55,9 @@ export class AppComponent {
               email: authUser.email ?? "",
               emailVerified: authUser.email_verified ?? false,
               nickname: authUser.nickname ?? "",
+              settingTimezone: "America/New_York",
+              settingWeightUnit: "kg",
+              settingDistanceUnit: "km",
               createdAt: new Date(Date.now()).toISOString()
             };
 

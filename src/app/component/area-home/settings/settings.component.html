@@ -1,1 +1,44 @@
-<p>settings works!</p>
+<div class="flex justify-center">
+    <h2>User Settings</h2>
+    <div class="text-center" style="max-width: 400px; margin: 20px;">
+        <p>Change your personal settings here:</p>
+        <form [formGroup]="settingsForm" class="space-y-4">
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Time Zone</mat-label>
+                <mat-select formControlName="settingTimezone" required>
+                    <!-- Timezone Full name - Mapping to luxon timezone string  -->
+                    <mat-option value="UTC">UTC: Universal Time Coordinated</mat-option>
+                    <mat-option value="Europe/Berlin">CET: Central European Time</mat-option>
+                    <mat-option value="Europe/London">GMT: Greenwich Mean Time</mat-option>
+                    <mat-option value="America/New_York">EST: Eastern Standard Time</mat-option>
+                    <mat-option value="America/Chicago">CST: Central Standard Time</mat-option>
+                    <mat-option value="America/Denver">MST: Mountain Standard Time</mat-option>
+                    <mat-option value="Asia/Kolkata">IST: Indian Standard Time</mat-option>
+                    <mat-option value="Asia/Shanghai">CST: China Standard Time</mat-option>
+                    <mat-option value="Asia/Tokyo">JST: Japan Standard Time</mat-option>
+                    <mat-option value="Asia/Riyadh">AST: Arabia Standard Time</mat-option>
+                    <mat-option value="America/Los_Angeles">PT: Pacific Time</mat-option>
+                    <mat-option value="Australia/Sydney">AEST: Australian Eastern Standard Time</mat-option>
+                    <mat-option value="America/Sao_Paulo">BRT: Brazilian Standard Time</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Distance</mat-label>
+                <mat-select formControlName="settingDistanceUnit" required>
+                    <mat-option value="km">Kilometers</mat-option>
+                    <mat-option value="miles">Miles</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="w-full" appearance="fill">
+                <mat-label>Weight</mat-label>
+                <mat-select formControlName="settingWeightUnit" required>
+                    <mat-option value="kg">Kilograms</mat-option>
+                    <mat-option value="lbs">Pounds</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </form>
+        <div>
+            <button mat-raised-button color="accent" (click)="save()" [disabled]="!settingsForm.valid">Save</button>
+        </div>
+    </div>
+</div>
