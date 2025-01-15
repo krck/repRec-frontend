@@ -12,6 +12,7 @@ import { TrainingDayComponent } from './component/area-user/training-day/trainin
 import { AdminLogsComponent } from './component/area-admin/admin-logs/admin-logs.component';
 import { SettingsComponent } from './component/area-home/settings/settings.component';
 import { LogoutComponent } from './component/area-home/logout/logout.component';
+import { HowToComponent } from './component/area-home/how-to/how-to.component';
 import { InfoComponent } from './component/area-home/info/info.component';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { Routes } from '@angular/router';
@@ -41,16 +42,23 @@ export const routes: Routes = [
         component: SettingsComponent,
         canActivate: [AuthGuard]
     },
-    // Training / User-Role Routes
     {
-        path: 'training-day',
-        component: TrainingDayComponent,
+        path: 'how-to',
+        component: HowToComponent,
         canActivate: [AuthGuard]
     },
+    // Training / User-Role Routes
     {
         path: 'training-week',
         component: TrainingWeekComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
+        children: [
+            {
+                path: 'training-day',
+                component: TrainingDayComponent,
+                canActivate: [AuthGuard]
+            }
+        ]
     },
     {
         path: 'training-year',

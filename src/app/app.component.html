@@ -20,10 +20,8 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-nav-list class="dense-list">
-              <a mat-list-item routerLink="/training-day" (click)="closeSidenav()">
-                <mat-icon class="align-middle mr-2">fitness_center</mat-icon>Training Day</a>
               <a mat-list-item routerLink="/training-week" (click)="closeSidenav()">
-                <mat-icon class="align-middle mr-2">format_list_numbered</mat-icon>Training Week</a>
+                <mat-icon class="align-middle mr-2">fitness_center</mat-icon>Training Week</a>
               <a mat-list-item routerLink="/training-year" (click)="closeSidenav()">
                 <mat-icon class="align-middle mr-2">calendar_month</mat-icon>Training Year</a>
               <a mat-list-item routerLink="/training-progress" (click)="closeSidenav()">
@@ -83,6 +81,8 @@
                 (click)="closeSidenav()"><mat-icon class="align-middle mr-2">person</mat-icon>User Settings</a>
               <a mat-menu-item routerLink="/info" class="flex justify-center space-x-2"
                 (click)="closeSidenav()"><mat-icon class="align-middle mr-2">info</mat-icon>User Info</a>
+              <a mat-menu-item routerLink="/how-to" class="flex justify-center space-x-2"
+                (click)="closeSidenav()"><mat-icon class="align-middle mr-2">menu_book</mat-icon>How To</a>
               <div class="flex justify-center">
                 <button class="mt-10" mat-raised-button color="accent" (click)="logout()">
                   Logout

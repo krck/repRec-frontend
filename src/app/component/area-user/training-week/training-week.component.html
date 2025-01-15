@@ -1,3 +1,12 @@
-<p class="fg-accent-500">Training Week</p>
-<p>Workout-Level view where the current Workout (for this week) will be displayed and Exercises can be started.</p>
-<p>Role: User</p>
+<div class="flex justify-center">
+    <!-- Empty Workout Text -->
+    <div class="text-center" style="max-width: 350px; margin: 20px;">
+        <p>If no Workout is set active for this week, you can schedule a workout using the <b>Training-Year</b> view:
+        </p>
+        <button mat-raised-button color="accent" routerLink="/training-year">Schedule Workout</button>
+        <p><br>If no Workout was created yet, you can use the <b>Plan-Workout</b> view to get going</p>
+        <button mat-raised-button color="accent" routerLink="/plan-workout">Create Workout</button>
+        <p><br>If you need more guidance, you can check out the <b>HowTo</b> here:</p>
+        <button mat-raised-button color="primary" routerLink="/how-to">HowTo</button>
+    </div>
+</div>
