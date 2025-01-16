@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>Select Workout</h2>
+<mat-dialog-content>
+    <div *ngFor="let workout of data.workouts" class="p-2">
+        <button mat-button class="w-full text-left" (click)="selectWorkout(workout)">
+            {{ workout }}
+        </button>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="close()">Cancel</button>
+</mat-dialog-actions>

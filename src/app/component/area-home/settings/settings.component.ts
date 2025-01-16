@@ -1,5 +1,4 @@
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { UserService } from '../../../service/user-service';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,8 +14,8 @@ import { CommonModule } from '@angular/common';
   selector: 'app-settings',
   standalone: true,
   imports: [
-    CommonModule, MatDialogModule, ReactiveFormsModule, MatSelectModule, MatIconModule,
-    ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule
+    CommonModule, MatSelectModule, MatIconModule, ReactiveFormsModule,
+    MatFormFieldModule, MatInputModule, MatButtonModule
   ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'

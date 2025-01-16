@@ -1,4 +1,29 @@
-<p class="fg-accent-500">Training Year</p>
-<p>Mesocycle-Level view where all calendar-weeks of the current year are visible and can be assigned to a Workout and a
-    Meso.</p>
-<p>Role: User</p>
+<div class="p-4">
+    <div class="mb-4">
+        <!-- Year Dropdown -->
+        <mat-form-field class="w-full">
+            <mat-label>Select Year</mat-label>
+            <mat-select [(value)]="currentYear" (selectionChange)="onYearChange($event.value)">
+                <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div>
+        <!-- Calendar Week Slots -->
+        <div *ngFor="let week of weeks; let i = index" (dblclick)="assignWorkout(i)" draggable="true"
+            (dragstart)="startDrag(i)" (dragover)="handleDragOver($event, i)" (dragend)="stopDrag()"
+            class="week-box flex justify-center items-center">
+            <!-- Assigned Workout -->
+            <div *ngIf="week.workout" class="workout-box w-full px-5 flex justify-between items-center bg-primary-800">
+                <div><b class="fg-accent-500">{{ week.workout }}</b></div>
+                <div>Week {{ week.week }} - {{week.dateRange}}</div>
+                <button mat-icon-button color="warn" (click)="removeWorkout(i)">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+            <!-- Case empty? Show Week number -->
+            <div *ngIf="!week.workout" class="fg-primary-600"><b>Week {{ week.week }}</b> - {{week.dateRange}}</div>
+        </div>
+    </div>
+</div>
