@@ -1,14 +1,14 @@
 import { WorkoutSelectionDialogComponent } from "../../dialogs/workout-selection-dialog/workout-selection-dialog.component";
+import { CdkDrag, CdkDropList, DragDropModule } from "@angular/cdk/drag-drop";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatSelectModule } from "@angular/material/select";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatDialog } from "@angular/material/dialog";
-import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { DateTime } from "luxon";
-import Hammer from "hammerjs";
 
 interface WeekSlot {
   week: number;
@@ -20,8 +20,8 @@ interface WeekSlot {
   selector: 'app-training-year',
   standalone: true,
   imports: [
-    CommonModule, MatSelectModule, MatIconModule, FormsModule,
-    ReactiveFormsModule, MatFormFieldModule, MatButtonModule
+    CommonModule, MatSelectModule, MatIconModule, FormsModule, DragDropModule,
+    CdkDropList, CdkDrag, ReactiveFormsModule, MatFormFieldModule, MatButtonModule
   ],
   templateUrl: './training-year.component.html',
   styleUrl: './training-year.component.scss'
@@ -32,15 +32,15 @@ export class TrainingYearComponent implements OnInit {
   weeks: WeekSlot[] = [];
   currentYear!: number;
   availableWorkouts: string[] = ['Workout A', 'Workout B', 'Workout C'];
-  draggedWorkout: string | null = null; // Currently dragged workout
+  draggedWorkout: string | null = null;
+  connectedLists: string[] = [];
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.currentYear = new Date().getFullYear();
     this.years = Array.from({ length: this.currentYear - 2020 }, (_, i) => 2021 + i);
     this.generateWeeks(this.currentYear);
-    this.initializeHammer();
   }
 
   generateWeeks(year: number) {
@@ -54,19 +54,9 @@ export class TrainingYearComponent implements OnInit {
       ),
       workout: null,
     }));
-  }
 
-  initializeHammer() {
-    // Use the HammerJS library to handle touch gestures for mobile devices
-    // (in other cases Angular CdkDragDrop is used, but here for the specific "Drag-over" this was not possible)
-    const weeks = document.querySelectorAll('.week-box');
-    weeks.forEach(week => {
-      const hammer = new Hammer(week as HTMLElement);
-      // Access the divs custom data attribute to get the index of the element and map "Hammer" events to the functions
-      hammer.on('panstart', (event: HammerInput) => this.startDrag(parseInt((event.target as HTMLElement).dataset['index'] ?? "", 10)));
-      hammer.on('panmove', (event: HammerInput) => this.handleDragOver(event, parseInt((event.target as HTMLElement).dataset['index'] ?? "", 10)));
-      hammer.on('panend', (event: HammerInput) => this.stopDrag());
-    });
+    // Update the connected lists for drag and drop slots
+    this.connectedLists = this.weeks.map((_, index) => `week-${index}`);
   }
 
   onYearChange(year: number) {
@@ -86,22 +76,24 @@ export class TrainingYearComponent implements OnInit {
     });
   }
 
-  // Start dragging a workout
-  startDrag(weekIndex: number) {
+  // Triggered when dragging starts
+  onDragStart(weekIndex: number) {
     this.draggedWorkout = this.weeks[weekIndex].workout;
+    this.cdr.detectChanges(); // Manually trigger change detection
   }
 
-  // Handle dragging over a slot
-  handleDragOver(event: any, weekIndex: number) {
-    event.preventDefault();
-    if (!this.weeks[weekIndex].workout && this.draggedWorkout) {
-      this.weeks[weekIndex].workout = this.draggedWorkout; // Copy workout to empty slot
+  // Triggered when a drag enters a new container
+  onDragOver(weekIndex: number) {
+    if (this.draggedWorkout && !this.weeks[weekIndex].workout) {
+      this.weeks[weekIndex].workout = this.draggedWorkout; // Assign the workout
+      this.cdr.detectChanges(); // Manually trigger change detection
     }
   }
 
-  // Stop dragging
-  stopDrag() {
+  // Triggered when dragging ends
+  onDragEnd() {
     this.draggedWorkout = null;
+    this.cdr.detectChanges(); // Manually trigger change detection
   }
 
   // Removes workout from a slot
