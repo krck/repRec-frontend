@@ -8,6 +8,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { DateTime } from "luxon";
+import Hammer from "hammerjs";
 
 interface WeekSlot {
   week: number;
@@ -39,6 +40,7 @@ export class TrainingYearComponent implements OnInit {
     this.currentYear = new Date().getFullYear();
     this.years = Array.from({ length: this.currentYear - 2020 }, (_, i) => 2021 + i);
     this.generateWeeks(this.currentYear);
+    this.initializeHammer();
   }
 
   generateWeeks(year: number) {
@@ -52,6 +54,19 @@ export class TrainingYearComponent implements OnInit {
       ),
       workout: null,
     }));
+  }
+
+  initializeHammer() {
+    // Use the HammerJS library to handle touch gestures for mobile devices
+    // (in other cases Angular CdkDragDrop is used, but here for the specific "Drag-over" this was not possible)
+    const weeks = document.querySelectorAll('.week-box');
+    weeks.forEach(week => {
+      const hammer = new Hammer(week as HTMLElement);
+      // Access the divs custom data attribute to get the index of the element and map "Hammer" events to the functions
+      hammer.on('panstart', (event: HammerInput) => this.startDrag(parseInt((event.target as HTMLElement).dataset['index'] ?? "", 10)));
+      hammer.on('panmove', (event: HammerInput) => this.handleDragOver(event, parseInt((event.target as HTMLElement).dataset['index'] ?? "", 10)));
+      hammer.on('panend', (event: HammerInput) => this.stopDrag());
+    });
   }
 
   onYearChange(year: number) {
@@ -77,7 +92,7 @@ export class TrainingYearComponent implements OnInit {
   }
 
   // Handle dragging over a slot
-  handleDragOver(event: DragEvent, weekIndex: number) {
+  handleDragOver(event: any, weekIndex: number) {
     event.preventDefault();
     if (!this.weeks[weekIndex].workout && this.draggedWorkout) {
       this.weeks[weekIndex].workout = this.draggedWorkout; // Copy workout to empty slot

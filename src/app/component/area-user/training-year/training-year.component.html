@@ -13,7 +13,7 @@
         <!-- Calendar Week Slots -->
         <div *ngFor="let week of weeks; let i = index" (dblclick)="assignWorkout(i)" draggable="true"
             (dragstart)="startDrag(i)" (dragover)="handleDragOver($event, i)" (dragend)="stopDrag()"
-            class="week-box flex justify-center items-center">
+            class="week-box flex justify-center items-center" [attr.data-index]="i">
             <!-- Assigned Workout -->
             <div *ngIf="week.workout" class="workout-box w-full px-5 flex justify-between items-center bg-primary-800">
                 <div><b class="fg-accent-500">{{ week.workout }}</b></div>
