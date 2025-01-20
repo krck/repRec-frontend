@@ -10,3 +10,22 @@
     border-radius: 2px;
     min-height: 58px;
 }
+
+.copy-button-box {
+    border: solid 1px #272727;
+    border-radius: 2px;
+    min-height: 58px;
+    max-width: 45px;
+}
+
+.copy-button {
+    max-height: 26px;
+    margin: 1px;
+    min-width: 40px;
+}
+
+.copy-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.3;
+}

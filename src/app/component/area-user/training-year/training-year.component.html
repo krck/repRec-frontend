@@ -11,13 +11,19 @@
 
     <div>
         <!-- Calendar Week Slots -->
-        <div *ngFor="let week of weeks; let i = index" cdkDropList [id]="'week-' + i" [cdkDropListData]="weeks"
-            [cdkDropListConnectedTo]="connectedLists" (dblclick)="assignWorkout(i)" (cdkDropListEntered)="onDragOver(i)"
+        <div *ngFor="let week of weeks; let i = index" (dblclick)="assignWorkout($event, i)"
             class="week-box flex justify-center items-center">
+            <div *ngIf="week.workout" class="copy-button-box flex flex-col items-center justify-center ">
+                <button class="copy-button bg-primary-800" (click)="copyUp($event, i)" [disabled]="!canCopyUp(i)">
+                    <mat-icon>arrow_drop_up</mat-icon>
+                </button>
+                <button class="copy-button bg-primary-800" (click)="copyDown($event, i)" [disabled]="!canCopyDown(i)">
+                    <mat-icon>arrow_drop_down</mat-icon>
+                </button>
+            </div>
 
             <!-- Assigned Workout -->
-            <div *ngIf="week.workout" cdkDrag (cdkDragStarted)="onDragStart(i)" (cdkDragEnded)="onDragEnd()"
-                class="workout-box w-full px-5 flex justify-between items-center bg-primary-800">
+            <div *ngIf="week.workout" class="workout-box w-full px-5 flex justify-between items-center bg-primary-800">
                 <div><b class="fg-accent-500">{{ week.workout }}</b></div>
                 <div>Week {{ week.week }} - {{ week.dateRange }}</div>
                 <button mat-icon-button color="warn" (click)="removeWorkout(i)">
@@ -30,7 +36,6 @@
                 <b>Week {{ week.week }}</b> - {{ week.dateRange }}
             </div>
         </div>
-
-
     </div>
+
 </div>

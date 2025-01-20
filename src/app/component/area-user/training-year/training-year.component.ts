@@ -1,5 +1,4 @@
 import { WorkoutSelectionDialogComponent } from "../../dialogs/workout-selection-dialog/workout-selection-dialog.component";
-import { CdkDrag, CdkDropList, DragDropModule } from "@angular/cdk/drag-drop";
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -20,8 +19,8 @@ interface WeekSlot {
   selector: 'app-training-year',
   standalone: true,
   imports: [
-    CommonModule, MatSelectModule, MatIconModule, FormsModule, DragDropModule,
-    CdkDropList, CdkDrag, ReactiveFormsModule, MatFormFieldModule, MatButtonModule
+    CommonModule, MatSelectModule, MatIconModule, FormsModule,
+    ReactiveFormsModule, MatFormFieldModule, MatButtonModule
   ],
   templateUrl: './training-year.component.html',
   styleUrl: './training-year.component.scss'
@@ -32,8 +31,6 @@ export class TrainingYearComponent implements OnInit {
   weeks: WeekSlot[] = [];
   currentYear!: number;
   availableWorkouts: string[] = ['Workout A', 'Workout B', 'Workout C'];
-  draggedWorkout: string | null = null;
-  connectedLists: string[] = [];
 
   constructor(private dialog: MatDialog, private cdr: ChangeDetectorRef) { }
 
@@ -54,9 +51,6 @@ export class TrainingYearComponent implements OnInit {
       ),
       workout: null,
     }));
-
-    // Update the connected lists for drag and drop slots
-    this.connectedLists = this.weeks.map((_, index) => `week-${index}`);
   }
 
   onYearChange(year: number) {
@@ -64,7 +58,7 @@ export class TrainingYearComponent implements OnInit {
   }
 
   // Opens dialog to assign a workout
-  assignWorkout(weekIndex: number) {
+  assignWorkout(event: MouseEvent, weekIndex: number) {
     const dialogRef = this.dialog.open(WorkoutSelectionDialogComponent, {
       data: { workouts: this.availableWorkouts },
     });
@@ -76,28 +70,31 @@ export class TrainingYearComponent implements OnInit {
     });
   }
 
-  // Triggered when dragging starts
-  onDragStart(weekIndex: number) {
-    this.draggedWorkout = this.weeks[weekIndex].workout;
-    this.cdr.detectChanges(); // Manually trigger change detection
+  canCopyUp(weekIndex: number): boolean {
+    return ((weekIndex - 1) >= 0 && !this.weeks[weekIndex - 1].workout);
   }
-
-  // Triggered when a drag enters a new container
-  onDragOver(weekIndex: number) {
-    if (this.draggedWorkout && !this.weeks[weekIndex].workout) {
-      this.weeks[weekIndex].workout = this.draggedWorkout; // Assign the workout
-      this.cdr.detectChanges(); // Manually trigger change detection
+  copyUp(event: MouseEvent, weekIndex: number): void {
+    event.stopPropagation();
+    event.preventDefault();
+    if (this.canCopyUp(weekIndex)) {
+      this.weeks[weekIndex - 1].workout = this.weeks[weekIndex].workout;
     }
   }
 
-  // Triggered when dragging ends
-  onDragEnd() {
-    this.draggedWorkout = null;
-    this.cdr.detectChanges(); // Manually trigger change detection
+  canCopyDown(weekIndex: number): boolean {
+    return ((weekIndex + 1) < this.weeks.length && !this.weeks[weekIndex + 1].workout);
+  }
+  copyDown(event: MouseEvent, weekIndex: number): void {
+    event.stopPropagation();
+    event.preventDefault();
+    if (this.canCopyDown(weekIndex)) {
+      this.weeks[weekIndex + 1].workout = this.weeks[weekIndex].workout;
+    }
   }
 
   // Removes workout from a slot
-  removeWorkout(weekIndex: number) {
+  removeWorkout(weekIndex: number): void {
     this.weeks[weekIndex].workout = null;
   }
+
 }
