@@ -5,38 +5,74 @@ class DataService
     const CSV_FIRST_ROW = 1;
     const CSV_SEPARATOR = "|";
 
+    private array $dataSheetModelArr = [];
+    private array $dataSheetWarGearArr = [];
+
     public function __construct() {}
 
-    public function loadAll($reload)
+    #region PUBLIC FUNCTIONS
+
+    public function getDataSheetModels(): array
     {
-        if ($reload === true) {
-            // Parse the raw data from the Wahapedia csv files
-            $dataSheetsRaw = $this->parseCSV("http://wahapedia.ru/wh40k10ed/Datasheets.csv");
-            $dataSheetModelsRaw = $this->parseCSV("http://wahapedia.ru/wh40k10ed/Datasheets_models.csv");
-            $dataSheetWarGearRaw = $this->parseCSV("http://wahapedia.ru/wh40k10ed/Datasheets_wargear.csv");
-
-            // Convert the raw data into typed object arrays
-            $dataSheetObjectsMap = [];
-            foreach ($dataSheetsRaw as $value) {
-                $tmp = new WhDataSheet($value);
-                $dataSheetObjectsMap[$tmp->id] = $tmp;
-            }
-
-            $anotherTest = $dataSheetObjectsMap[882];
-
-            $dataSheetModelObjects = array_map(function ($data) {
-                return new WhDataSheetModel($data);
-            }, $dataSheetModelsRaw);
-
-            $dataSheetWarGearObjects = array_map(function ($data) {
-                return new WhDataSheetWarGear($data);
-            }, $dataSheetWarGearRaw);
-        }
-
-        $test = 1;
+        return $this->dataSheetModelArr;
     }
 
-    #region public readonly string
+    public function getDataSheetWarGear(): array
+    {
+        return $this->dataSheetWarGearArr;
+    }
+
+    public function loadAll($reload): bool
+    {
+        try {
+            if ($reload === true) {
+                // Parse the raw data from the Wahapedia csv files
+                $dataSheetsRaw = $this->parseCSV("http://wahapedia.ru/wh40k10ed/Datasheets.csv");
+                $dataSheetModelsRaw = $this->parseCSV("http://wahapedia.ru/wh40k10ed/Datasheets_models.csv");
+                $dataSheetWarGearRaw = $this->parseCSV("http://wahapedia.ru/wh40k10ed/Datasheets_wargear.csv");
+
+                // Convert the raw DataSheets into a id/value dictionary
+                $dataSheetsMap = [];
+                foreach ($dataSheetsRaw as $value) {
+                    $tmp = new WhDataSheet($value);
+                    $dataSheetsMap[$tmp->id] = $tmp;
+                }
+
+                $this->dataSheetModelArr = [];
+                foreach ($dataSheetModelsRaw as $dsm) {
+                    // Generate a full DataSheet name with additional info and create the DataSheetModel
+                    $fullName = "";
+                    $rawId = intval($dsm[0]);
+                    if (isset($dataSheetsMap[$rawId])) {
+                        $dataSheet = $dataSheetsMap[$rawId];
+                        $fullName = "{$dataSheet->name} [{$dataSheet->factionId} - {$dataSheet->role}]";
+                    }
+                    array_push($this->dataSheetModelArr, new WhDataSheetModel($dsm, $fullName));
+                }
+
+                $this->dataSheetWarGearArr = [];
+                foreach ($dataSheetWarGearRaw as $dwg) {
+                    // Generate a full DataSheet name with additional info and create the DataSheetModel
+                    $fullName = "";
+                    $rawId = intval($dsm[0]);
+                    if (isset($dataSheetsMap[$rawId])) {
+                        $dataSheet = $dataSheetsMap[$rawId];
+                        $fullName = "{$dataSheet->name} [{$dataSheet->factionId} - {$dataSheet->role}]";
+                    }
+                    array_push($this->dataSheetWarGearArr, new WhDataSheetWarGear($dwg, $fullName));
+                }
+            }
+            return true;
+        } catch (\Throwable $th) {
+            // "\" forces PHP to look for the class in the global namespace
+            // (this save a "use Throwable" declaration on top of the file)
+            return false;
+        }
+    }
+
+    #endregion
+
+    #region PRIVATE FUNCTIONS
 
     private function parseCSV($fileLink)
     {

@@ -5,11 +5,13 @@
 -->
 
 <?php
+
 session_start(); // Start the session
 
 require_once 'logic/CalculationService.php';
 require_once 'logic/ExportService.php';
 require_once 'logic/DataService.php';
+require_once 'logic/App.php';
 
 require_once 'model/WhDataSheet.php';
 require_once 'model/WhDataSheetModel.php';
@@ -19,63 +21,6 @@ require_once 'model/WhDataSheetWarGear.php';
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
-class App
-{
-    public $loading = false;
-    private $data = []; // Holds the loaded or processed data
-    private $output = ""; // Holds any text output to display on the page
-
-    public function __construct()
-    {
-        $this->initApp();
-    }
-
-    private function initApp()
-    {
-        try {
-            $this->loading = true;
-            if (empty($this->data)) {
-                $dataService = new DataService();
-                $dataService->loadAll(true);
-                $this->data = ["not empty"];
-            }
-        } catch (\Throwable $th) {
-            //throw $th;
-        } finally {
-            $this->loading = false;
-        }
-    }
-
-    public function calculateData()
-    {
-        if (empty($this->data)) {
-            $this->output = "No data available to calculate. Please load data first.";
-            return;
-        }
-
-        $calculator = new CalculationService();
-        // $results = $calculator->process($this->data, 2);
-        // $this->output = "Data calculated successfully:\n" . print_r($results, true);
-    }
-
-    public function exportData()
-    {
-        if (empty($this->data)) {
-            $this->output = "No data available to export. Please load data first.";
-            return;
-        }
-
-        $exporter = new ExportService();
-        // $exporter->export($this->data);
-        // $this->output = "Data exported successfully. Check the output file.";
-    }
-
-    public function renderOutput()
-    {
-        echo $this->output;
-    }
-}
 
 // Retrieve the App instance from the session (or create a new one)
 if (!isset($_SESSION['app'])) {
@@ -151,7 +96,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div>
             <h2>Output:</h2>
-            <pre><?php $app->renderOutput(); ?></pre>
+            <p><?php $app->renderOutput(); ?></p>
+            <p><?php count($app->$dataSheetModels) ?></p>
         </div>
     </div>
 

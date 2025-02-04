@@ -10,11 +10,11 @@ class WhDataSheet
     public function __construct($data)
     {
         $this->id = intval($data[0]);
-        $this->name = strval($data[1]);
-        $this->factionId = strval($data[2]);
+        $this->name = strval($data[1] ?? '');
+        $this->factionId = strval($data[2] ?? '');
         // $this->source_id = $data[3];
         // $this->legend = $data[4];
-        $this->role = strval($data[5]);
+        $this->role = strval($data[5] ?? '');
         // $this->loadout = $data['loadout'];
         // $this->transport = $data['transport'];
         // $this->virtual = $data['virtual'];
