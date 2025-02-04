@@ -11,6 +11,10 @@ require_once 'logic/CalculationService.php';
 require_once 'logic/ExportService.php';
 require_once 'logic/DataService.php';
 
+require_once 'model/WhDataSheet.php';
+require_once 'model/WhDataSheetModel.php';
+require_once 'model/WhDataSheetWarGear.php';
+
 // Full Error/Debugging output
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -18,15 +22,29 @@ error_reporting(E_ALL);
 
 class App
 {
+    public $loading = false;
     private $data = []; // Holds the loaded or processed data
     private $output = ""; // Holds any text output to display on the page
 
-    public function loadData()
+    public function __construct()
     {
-        $dataService = new DataService();
-        $this->output = "Loaded";
-        // $this->data = $loader->load(__DIR__ . '/../data/sample.csv'); // Example CSV path
+        $this->initApp();
+    }
 
+    private function initApp()
+    {
+        try {
+            $this->loading = true;
+            if (empty($this->data)) {
+                $dataService = new DataService();
+                $dataService->loadAll(true);
+                $this->data = ["not empty"];
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        } finally {
+            $this->loading = false;
+        }
     }
 
     public function calculateData()
@@ -84,12 +102,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['app'] = $app;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_GET['action'] === 'load') {
-    $app->loadData();
+// if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_GET['action'] === 'load') {
+//     $app->loadData();
 
-    // Save the updated App instance back to the session
-    $_SESSION['app'] = $app;
-}
+//     // Save the updated App instance back to the session
+//     $_SESSION['app'] = $app;
+// }
 
 ?>
 
@@ -101,23 +119,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_GET['action'] === 'load') {
     <title>Warhammer Calculator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="public/style.css">
+    <style>
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            /* Safari */
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 </head>
 
 <body>
     <h1>Warhammer Calculator</h1>
 
-    <form method="get" action="index.php">
+    <div>
+        <div class="loader" style="<?php echo ($app->loading == true ? "display:block !important;" : "display:none !important;") ?>"></div>
+
+        <div>
+            <h2>Output:</h2>
+            <pre><?php $app->renderOutput(); ?></pre>
+        </div>
+    </div>
+
+    <!-- <form method="get" action="index.php">
         <button type="submit" name="action" value="load">Load Data</button>
     </form>
     <form method="post" action="index.php">
         <button type="submit" name="action" value="calculate">Calculate</button>
         <button type="submit" name="action" value="export">Export</button>
-    </form>
+    </form> -->
 
-    <div>
-        <h2>Output:</h2>
-        <pre><?php $app->renderOutput(); ?></pre>
-    </div>
 </body>
 
 </html>
